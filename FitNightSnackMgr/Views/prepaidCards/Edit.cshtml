@@ -1,0 +1,54 @@
+﻿@model FitNightSnackMgr.Models.prepaidCard
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>prepaidCard</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="CardCode" class="control-label"></label>
+                <input asp-for="CardCode" class="form-control" />
+                <span asp-validation-for="CardCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecretKey" class="control-label"></label>
+                <input asp-for="SecretKey" class="form-control" />
+                <span asp-validation-for="SecretKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserAccount" class="control-label"></label>
+                <input asp-for="UserAccount" class="form-control" />
+                <span asp-validation-for="UserAccount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CardStatus" class="control-label"></label>
+                <input asp-for="CardStatus" class="form-control" />
+                <span asp-validation-for="CardStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
