@@ -163,7 +163,7 @@ namespace FitNightSnackMgr.Controllers
         {
 
             if (IsAdminExists(admin.LoginAccount, admin.PassWord))
-                return Redirect("../home/Index");
+                return RedirectToAction("Manager");
 
             return View();
 
@@ -173,6 +173,12 @@ namespace FitNightSnackMgr.Controllers
         public bool IsAdminExists(string login_account, string password)
         {
             return _context.Admin.Any(a => a.LoginAccount == login_account && a.PassWord == password);
+        }
+
+
+        public ActionResult Manager()
+        {
+            return View();
         }
 
 

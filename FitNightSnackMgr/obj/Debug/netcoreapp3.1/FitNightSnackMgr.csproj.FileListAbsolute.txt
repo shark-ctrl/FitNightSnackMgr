@@ -193,3 +193,5 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\D
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\Edit.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\Login.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\Manager.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout _admin.cshtml.g.cs
