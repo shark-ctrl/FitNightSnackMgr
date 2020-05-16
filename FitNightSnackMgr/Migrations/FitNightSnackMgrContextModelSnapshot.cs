@@ -26,6 +26,9 @@ namespace FitNightSnackMgr.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AdminName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
@@ -36,6 +39,9 @@ namespace FitNightSnackMgr.Migrations
                     b.Property<string>("PassWord")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Permissions")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

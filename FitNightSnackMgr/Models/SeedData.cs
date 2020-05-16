@@ -20,7 +20,9 @@ namespace FitNightSnackMgr.Models
                 if (!context.Admin.Any())
                 {
                     context.Admin.AddRange(
-                        new Admin() { LoginAccount = "admin", PassWord = "112233", CreateTime = DateTime.Now }
+                        new Admin() { LoginAccount = "admin",AdminName="刘德华", PassWord = "112233", CreateTime = DateTime.Now, Permissions = 0 },
+                        new Admin() { LoginAccount = "worker1", AdminName = "蔡徐坤", PassWord = "112233", CreateTime = DateTime.Now, Permissions = 1 },
+                        new Admin() { LoginAccount = "worker2", AdminName = "罗志祥", PassWord = "112233", CreateTime = DateTime.Now, Permissions = 1 }
              );
                     context.SaveChanges();
                 }

@@ -30,12 +30,12 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>在线订餐</b>管理后台</span>
+                <span class="logo-lg"><b>Fit深夜食堂</b>管理后台</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <div class="navbar-custom-menu" style="padding-top:18px;padding-right:30px;color:white;font-size:16px;">
-                    <span><p>当前用户：Admin</p></span>
+                    <span><p>当前用户： @ViewData["username"] </p></span>
                 </div>
             </nav>
         </header>
@@ -47,6 +47,7 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" style="margin-top:10px; margin-left:15px;line-height:25px;font-size:16px;">
+                    <li><a asp-controller="Admins" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>员工管理</span></a></li>
                     <li><a href="../User/List"><i class="fa fa-circle-o text-blue"></i> <span>用户管理</span></a></li>
                     <li><a href="../Category/List"><i class="fa fa-circle-o text-blue"></i> <span>分类管理</span></a></li>
                     <li><a href="../Goods/List"><i class="fa fa-circle-o text-blue"></i> <span>商品管理</span></a></li>
