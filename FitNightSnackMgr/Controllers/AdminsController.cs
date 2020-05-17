@@ -110,21 +110,16 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Admin admin)
+        public async Task<IActionResult> Create(AdminViewModel admin_view_model)
         {
 
-            var admin_view_model = new AdminViewModel
-            {
-                WorkMan = admin,
-               
-            };
+           
 
             if (ModelState.IsValid)
             {
-                _context.Add(admin);
-                await _context.SaveChangesAsync();
-
-              
+                admin_view_model.WorkMan.CreateTime = DateTime.Now;
+                _context.Add(admin_view_model.WorkMan);
+                await _context.SaveChangesAsync();              
 
                 return RedirectToAction("Index","Admins",admin_view_model.WorkMan);
             }
