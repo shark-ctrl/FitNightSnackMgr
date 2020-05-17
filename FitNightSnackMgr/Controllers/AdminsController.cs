@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FitNightSnackMgr.Data;
 using FitNightSnackMgr.Models;
 using FitNightSnackMgr.ViewModels;
+using FitNightSnackMgr.Tools;
+using Microsoft.AspNetCore.Http;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -25,21 +27,16 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: Admins
-        public async Task<IActionResult> Index(Admin admin)
+        public IActionResult Index(Admin admin)
         {
-            if (admin.LoginAccount != null)
+
+            AdminViewModel adminViewModel = new AdminViewModel()
             {
-                var result = from n in _context.Admin
-                           where n.LoginAccount == admin.LoginAccount && n.PassWord == admin.PassWord
-                           select n.AdminName;
-                ViewData["username"] = result.First();
-               
+                WorkMan=admin,
+                Admins= _context.Admin.ToList()
+        };
 
-            }
-           
-
-            
-            return View(await _context.Admin.ToListAsync());
+            return View(adminViewModel);
         }
 
         // GET: Admins/Details/5
@@ -80,7 +77,7 @@ namespace FitNightSnackMgr.Controllers
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
 
-                var admin_view_model = new AdminEditViewModel
+                var admin_view_model = new AdminViewModel
                 {
                     WorkMan = admin,
                     Permission = null
@@ -105,7 +102,7 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
            
-            var admin_view_model = new AdminEditViewModel
+            var admin_view_model = new AdminViewModel
             {
                 WorkMan = admin,
                 Permission = null
@@ -119,7 +116,7 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  AdminEditViewModel adminEditView)
+        public async Task<IActionResult> Edit(int id,  AdminViewModel adminEditView)
         {
             if (id != adminEditView.WorkMan.Id)
             {
@@ -196,11 +193,26 @@ namespace FitNightSnackMgr.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(Admin admin)
+        public ActionResult Login(Admin admin_only_account_password)
         {
+            bool res = CongdingTools.CheckObj(admin_only_account_password);
 
-            if (IsAdminExists(admin.LoginAccount, admin.PassWord))
+            if (!res) return View();
+
+
+
+            string ori_password = admin_only_account_password.PassWord;
+            string md5_password = PassWordHelper.Md532Salt(ori_password, admin_only_account_password.LoginAccount);
+
+
+
+            if (IsAdminExists(admin_only_account_password.LoginAccount, md5_password))
+            {
+                var admin = _context.Admin.First(a => a.LoginAccount == admin_only_account_password.LoginAccount);
+              
                 return RedirectToAction("Index", admin);
+            }
+                
 
             return View();
 
@@ -222,6 +234,8 @@ namespace FitNightSnackMgr.Controllers
             return false;
         }
      
+
+        
 
 
     }

@@ -1,6 +1,6 @@
 ﻿
 <!DOCTYPE html>
-
+@model FitNightSnackMgr.ViewModels.AdminViewModel
 <html>
 <head>
     <meta charset="utf-8">
@@ -35,7 +35,9 @@
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <div class="navbar-custom-menu" style="padding-top:18px;padding-right:30px;color:white;font-size:16px;">
-                    <span><p>当前用户： @ViewData["username"] </p></span>
+                   
+
+                    <span>当前用户：@Model.WorkMan.AdminName  </span>
                 </div>
             </nav>
         </header>

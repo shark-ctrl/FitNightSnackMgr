@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout _admin.cshtml";
 }
-@model IEnumerable<FitNightSnackMgr.Models.Admin>
+@model FitNightSnackMgr.ViewModels.AdminViewModel
 
 <section class="content-header">
     <h1>
@@ -39,7 +39,7 @@
 
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Admins)
                                         {
                                             <tr role="row" class="odd">
                                                 <td class="sorting_1">@item.Id</td>
