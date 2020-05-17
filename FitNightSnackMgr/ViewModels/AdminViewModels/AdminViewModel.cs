@@ -13,5 +13,7 @@ namespace FitNightSnackMgr.ViewModels
 
         public List<Admin> Admins { get; set; }
         public SelectList Permission { get; set; }
+
+        public string AdminName { get; set; }
     }
 }

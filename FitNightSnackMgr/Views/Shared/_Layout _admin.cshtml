@@ -1,5 +1,6 @@
 ﻿
 <!DOCTYPE html>
+
 @model FitNightSnackMgr.ViewModels.AdminViewModel
 <html>
 <head>
@@ -9,7 +10,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-  
+
     <link rel="stylesheet" href="~/Content/Admin/bootstrap.min.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Content/Admin/dataTables.bootstrap.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Content/Admin/AdminLTE.min.css" id="theme-stylesheet">
@@ -35,9 +36,10 @@
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <div class="navbar-custom-menu" style="padding-top:18px;padding-right:30px;color:white;font-size:16px;">
-                   
 
-                    <span>当前用户：@Model.WorkMan.AdminName  </span>
+
+
+                    <span>欢迎：@Model.AdminName </span>
                 </div>
             </nav>
         </header>

@@ -29,12 +29,20 @@ namespace FitNightSnackMgr.Controllers
         // GET: Admins
         public IActionResult Index(Admin admin)
         {
+            string session_username= HttpContext.Session.GetString("username");
+            if (session_username == null)
+            {
+                HttpContext.Session.SetString("username", admin.AdminName);
+                session_username= HttpContext.Session.GetString("username");
+            }
+
 
             AdminViewModel adminViewModel = new AdminViewModel()
             {
-                WorkMan=admin,
-                Admins= _context.Admin.ToList()
-        };
+                WorkMan = admin,
+                Admins = _context.Admin.ToList(),
+                AdminName = session_username
+            };
 
             return View(adminViewModel);
         }
@@ -105,8 +113,9 @@ namespace FitNightSnackMgr.Controllers
             var admin_view_model = new AdminViewModel
             {
                 WorkMan = admin,
-                Permission = null
-            };
+                Permission = null,
+                AdminName= HttpContext.Session.GetString("username")
+        };
            
             return View(admin_view_model);
         }
