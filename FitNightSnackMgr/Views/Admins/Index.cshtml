@@ -26,7 +26,8 @@
                     <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
                             <div class="col-sm-12">
-                                <p> <a asp-action="Create">创建新员工</a></p>
+                                @if (Model.Admin_permission == "0") { <p> <a asp-action="Create" >创建新员工</a></p>}
+                             
                                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                                     <thead>
                                         <tr role="row">
@@ -39,6 +40,7 @@
 
                                     </thead>
                                     <tbody>
+                                        @if(Model.Admins!=null)
                                         @foreach (var item in Model.Admins)
                                         {
                                             <tr role="row" class="odd">

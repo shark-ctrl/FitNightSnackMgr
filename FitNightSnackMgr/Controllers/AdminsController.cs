@@ -29,22 +29,47 @@ namespace FitNightSnackMgr.Controllers
         // GET: Admins
         public IActionResult Index(Admin admin)
         {
-            string session_username= HttpContext.Session.GetString("username");
-            if (session_username == null)
-            {
-                HttpContext.Session.SetString("username", admin.AdminName);
-                session_username= HttpContext.Session.GetString("username");
-            }
+            SaveSession("username", admin.AdminName);
+            SaveSession("permission", admin.Permissions.ToString());
 
 
-            AdminViewModel adminViewModel = new AdminViewModel()
-            {
-                WorkMan = admin,
-                Admins = _context.Admin.ToList(),
-                AdminName = session_username
-            };
+            AdminViewModel adminViewModel = new AdminViewModel();
+
+            int admin_permission = GetSessionAndConvertToInt("permission");
+
+            if (IsBoss(admin_permission))
+                adminViewModel.Admins = _context.Admin.Where(a=>a.Permissions!=-1).ToList();
+            else
+                adminViewModel.Admins = null;
+
+            adminViewModel.AdminName = GetSession("username");
+            adminViewModel.Admin_permission = GetSession("permission");
 
             return View(adminViewModel);
+        }
+
+
+        public void SaveSession(string key,string value)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            if (session_value == null)
+            {
+                HttpContext.Session.SetString(key, value);
+                session_value = HttpContext.Session.GetString(key);
+            }
+        }
+
+        public int GetSessionAndConvertToInt(string key)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            return Convert.ToInt32(session_value);
+        }
+
+
+        public string GetSession(string key)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            return session_value;
         }
 
         // GET: Admins/Details/5
@@ -62,13 +87,22 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
 
-            return View(admin);
+            AdminViewModel adminViewModel = new AdminViewModel() { 
+            WorkMan=admin,
+            AdminName=GetSession("username")
+            };
+           
+            return View(adminViewModel);
         }
 
         // GET: Admins/Create
         public IActionResult Create()
         {
-            return View();
+            AdminViewModel adminViewModel = new AdminViewModel()
+            {
+                AdminName = GetSession("username")
+            };
+            return View(adminViewModel);
         }
 
         // POST: Admins/Create
@@ -76,24 +110,27 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LoginAccount,PassWord,AdminName")] Admin admin)
+        public async Task<IActionResult> Create(Admin admin)
         {
-            admin.CreateTime = DateTime.Now;
-            admin.Permissions = (int)Permissions.WORKER;
+
+            var admin_view_model = new AdminViewModel
+            {
+                WorkMan = admin,
+               
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
 
-                var admin_view_model = new AdminViewModel
-                {
-                    WorkMan = admin,
-                    Permission = null
-                };
+              
 
                 return RedirectToAction("Index","Admins",admin_view_model.WorkMan);
             }
-            return View(admin);
+
+            admin_view_model.AdminName = GetSession("username");
+            return View(admin_view_model);
         }
 
         // GET: Admins/Edit/5
@@ -136,6 +173,7 @@ namespace FitNightSnackMgr.Controllers
             {
                 try
                 {
+                    
                     _context.Update(adminEditView.WorkMan);
                     await _context.SaveChangesAsync();
                 }
@@ -174,7 +212,13 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
 
-            return View(admin);
+            AdminViewModel adminViewModel = new AdminViewModel()
+            {
+                WorkMan = admin,
+                AdminName=GetSession("username")
+
+            };
+            return View(adminViewModel);
         }
 
         // POST: Admins/Delete/5
@@ -183,7 +227,8 @@ namespace FitNightSnackMgr.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var admin = await _context.Admin.FindAsync(id);
-            _context.Admin.Remove(admin);
+            admin.Permissions = -1;
+            _context.Admin.Update(admin);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

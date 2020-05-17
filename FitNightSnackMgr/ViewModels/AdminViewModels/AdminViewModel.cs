@@ -15,5 +15,7 @@ namespace FitNightSnackMgr.ViewModels
         public SelectList Permission { get; set; }
 
         public string AdminName { get; set; }
+
+        public string Admin_permission { get; set; }
     }
 }

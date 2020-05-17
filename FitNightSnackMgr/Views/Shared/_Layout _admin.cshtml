@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="~/Content/Admin/_all-skins.min.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Scripts/Admin/jquery.min.js" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Scripts/Admin/simpleCart.min.js" id="theme-stylesheet">
+   
 
 
 
@@ -68,6 +69,11 @@
             @RenderBody()
             <!-- /.content -->
         </div>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
@@ -88,7 +94,7 @@
         </aside>
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
+         immediately after the control sidebar -->
         <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
     </div>
 </body>
