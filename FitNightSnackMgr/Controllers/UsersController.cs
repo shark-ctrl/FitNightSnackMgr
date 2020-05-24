@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitNightSnackMgr.Data;
 using FitNightSnackMgr.Models;
+using Microsoft.AspNetCore.Http;
+using FitNightSnackMgr.ViewModels.UserViewModels;
+using FitNightSnackMgr.ViewModels;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -20,9 +23,20 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.User.ToListAsync());
+            UserViewModels userViewModels = new UserViewModels()
+            {
+                AdminName = GetSession("username"),
+                Users = _context.User.ToList()
+            };
+            return View(userViewModels);
+        }
+
+        public string GetSession(string key)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            return session_value;
         }
 
         // GET: Users/Details/5
@@ -40,7 +54,13 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            UserViewModels userViewModels = new UserViewModels()
+            {
+                User = user,
+                AdminName = GetSession("username")
+            };
+
+            return View(userViewModels);
         }
 
         // GET: Users/Create
