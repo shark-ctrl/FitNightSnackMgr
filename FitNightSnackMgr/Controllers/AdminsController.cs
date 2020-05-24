@@ -117,7 +117,10 @@ namespace FitNightSnackMgr.Controllers
 
             if (ModelState.IsValid)
             {
+                string not_encrypted = admin_view_model.WorkMan.PassWord;
+                admin_view_model.WorkMan.PassWord = PassWordHelper.Md532Salt(not_encrypted, admin_view_model.WorkMan.LoginAccount);
                 admin_view_model.WorkMan.CreateTime = DateTime.Now;
+
                 _context.Add(admin_view_model.WorkMan);
                 await _context.SaveChangesAsync();              
 
@@ -168,7 +171,9 @@ namespace FitNightSnackMgr.Controllers
             {
                 try
                 {
-                    
+                    string not_encrypted = adminEditView.WorkMan.PassWord;
+                    adminEditView.WorkMan.PassWord = PassWordHelper.Md532Salt(not_encrypted, adminEditView.WorkMan.LoginAccount);
+                    adminEditView.WorkMan.CreateTime = DateTime.Now;
                     _context.Update(adminEditView.WorkMan);
                     await _context.SaveChangesAsync();
                 }
