@@ -273,6 +273,11 @@ namespace FitNightSnackMgr.Controllers
 
         }
 
+        public IActionResult Logout()
+        {
+            return View(nameof(Login));
+        }
+
         public bool IsAdminExists(string login_account, string password)
         {
             return _context.Admin.Any(a => a.LoginAccount == login_account && a.PassWord == password);
