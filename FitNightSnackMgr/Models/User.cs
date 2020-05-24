@@ -25,6 +25,7 @@ namespace FitNightSnackMgr.Models
 
 
         [Required(ErrorMessage = "用户名不可为空")]
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
 
 

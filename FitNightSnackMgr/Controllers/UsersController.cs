@@ -13,6 +13,7 @@ using FitNightSnackMgr.ViewModels;
 
 namespace FitNightSnackMgr.Controllers
 {
+    public enum USER_ACCOUNT_STATUS { PROHIBIT=0,RELIEVE=1}
     public class UsersController : Controller
     {
         private readonly FitNightSnackMgrContext _context;
@@ -151,7 +152,14 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
 
-            return View(user);
+
+            UserViewModels userViewModels = new UserViewModels()
+            {
+                AdminName = GetSession("username"),
+                User = user
+            };
+
+            return View(userViewModels);
         }
 
         // POST: Users/Delete/5
@@ -160,7 +168,14 @@ namespace FitNightSnackMgr.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+
+            if (user.Status == (int)USER_ACCOUNT_STATUS.PROHIBIT)
+                user.Status = (int)USER_ACCOUNT_STATUS.RELIEVE;
+            else
+                user.Status = (int)USER_ACCOUNT_STATUS.PROHIBIT;
+
+
+            //_context.User.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
