@@ -1,4 +1,11 @@
-﻿@model FitNightSnackMgr.Models.SnackCategory
+﻿@{
+    Layout = "~/Views/Shared/_Layout _categories.cshtml";
+}
+
+
+@model FitNightSnackMgr.ViewModels.Categories.CategoryViewModels
+
+
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,22 +18,22 @@
     <h4>SnackCategory</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryNum)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackCategory.CategoryNum)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryNum)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackCategory.CategoryNum)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryName)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackCategory.CategoryName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackCategory.CategoryName)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="@Model.SnackCategory.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

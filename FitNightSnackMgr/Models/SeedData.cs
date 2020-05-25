@@ -43,6 +43,20 @@ namespace FitNightSnackMgr.Models
                 }
 
 
+                // Look for any SnackCategory.
+                if (!context.SnackCategory.Any())
+                {
+                    context.SnackCategory.AddRange(
+                        
+                        new SnackCategory() { CategoryNum=1001,CategoryName="零食",Description="薯片，薯条，方便面等",Status=1},
+                         new SnackCategory() { CategoryNum = 1002, CategoryName = "烧烤", Description = "微波炉现烤 热狗 骨肉相连等", Status = 0 }
+
+                        );
+                     
+                    context.SaveChanges();
+                }
+
+
             }
         }
     }

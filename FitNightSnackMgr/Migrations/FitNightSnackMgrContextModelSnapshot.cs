@@ -90,6 +90,12 @@ namespace FitNightSnackMgr.Migrations
                     b.Property<long>("CategoryNum")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("SnackCategory");

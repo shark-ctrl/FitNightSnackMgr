@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitNightSnackMgr.Data;
 using FitNightSnackMgr.Models;
+using FitNightSnackMgr.ViewModels.Categories;
+using Microsoft.AspNetCore.Http;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -20,27 +22,45 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: SnackCategories
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            return View(await _context.SnackCategory.ToListAsync());
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName = GetSession("username"),
+                SnackCategories = _context.SnackCategory.ToList()
+            };
+            return View(categoryViewModels);
+        }
+
+
+        public string GetSession(string key)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            return session_value;
         }
 
         // GET: SnackCategories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var snackCategory = await _context.SnackCategory
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var snackCategory =  _context.SnackCategory
+                .FirstOrDefault(m => m.Id == id);
             if (snackCategory == null)
             {
                 return NotFound();
             }
 
-            return View(snackCategory);
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName=GetSession("username"),
+                SnackCategory=snackCategory
+            };
+
+            return View(categoryViewModels);
         }
 
         // GET: SnackCategories/Create
@@ -78,7 +98,14 @@ namespace FitNightSnackMgr.Controllers
             {
                 return NotFound();
             }
-            return View(snackCategory);
+
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName = GetSession("username"),
+                SnackCategory = snackCategory
+            };
+
+            return View(categoryViewModels);
         }
 
         // POST: SnackCategories/Edit/5
@@ -86,7 +113,7 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryNum,CategoryName")] SnackCategory snackCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryNum,CategoryName,Description,Status")] SnackCategory snackCategory)
         {
             if (id != snackCategory.Id)
             {
@@ -113,7 +140,12 @@ namespace FitNightSnackMgr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(snackCategory);
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName = GetSession("username"),
+                SnackCategory = snackCategory
+            };
+            return View(categoryViewModels);
         }
 
         // GET: SnackCategories/Delete/5
