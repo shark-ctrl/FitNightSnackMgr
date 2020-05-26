@@ -15,6 +15,8 @@ namespace FitNightSnackMgr.ViewModels.UserViewModels
 
         public User User { get; set; }
 
+      
+
         
     }
 }

@@ -66,7 +66,16 @@ namespace FitNightSnackMgr.Controllers
         // GET: SnackCategories/Create
         public IActionResult Create()
         {
-            return View();
+            long max_category_num = _context.SnackCategory.Max(c => c.CategoryNum);
+            long new_category_num = max_category_num + 1;
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName = GetSession("username"),
+                NewCategoryNum= new_category_num
+
+                //SnackCategory = snackCategory
+            };
+            return View(categoryViewModels);
         }
 
         // POST: SnackCategories/Create
@@ -74,7 +83,7 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryNum,CategoryName")] SnackCategory snackCategory)
+        public async Task<IActionResult> Create([Bind("Id,CategoryNum,CategoryName,Description,Status")] SnackCategory snackCategory)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +91,12 @@ namespace FitNightSnackMgr.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(snackCategory);
+            CategoryViewModels categoryViewModels = new CategoryViewModels()
+            {
+                AdminName=GetSession("username"),
+                SnackCategory=snackCategory
+            };
+            return View(categoryViewModels);
         }
 
         // GET: SnackCategories/Edit/5

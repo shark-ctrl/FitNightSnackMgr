@@ -13,7 +13,7 @@ namespace FitNightSnackMgr.Models
 
         [Display(Name ="分类编号")]
         [Required(ErrorMessage = "分类号不可为空")]
-        [RegularExpression(@"\d{4,}")]
+        [RegularExpression(@"\d{4,}",ErrorMessage ="分类号必须大于四位，如1001")]
         public long CategoryNum { get; set; }
 
         [Required(ErrorMessage ="分类名不可为空")]
@@ -22,6 +22,7 @@ namespace FitNightSnackMgr.Models
 
         
         [Display(Name = "描述")]
+        [Required(ErrorMessage = "描述不可为空")]
         public string Description { get; set; }
 
         [Display(Name = "分类使用状态")]

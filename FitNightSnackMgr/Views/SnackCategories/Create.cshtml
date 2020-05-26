@@ -1,36 +1,54 @@
-﻿@model FitNightSnackMgr.Models.SnackCategory
+﻿@{
+    Layout = "~/Views/Shared/_Layout _categories.cshtml";
+}
+@model FitNightSnackMgr.ViewModels.Categories.CategoryViewModels
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>创建新分类</h1>
 
-<h4>SnackCategory</h4>
+<h4>分类编辑</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CategoryNum" class="control-label"></label>
-                <input asp-for="CategoryNum" class="form-control" />
-                <span asp-validation-for="CategoryNum" class="text-danger"></span>
+                <label asp-for="@Model.SnackCategory.CategoryNum" class="control-label"></label>
+                <input asp-for="@Model.SnackCategory.CategoryNum" class="form-control" min="1000" max="9999" value="@Model.NewCategoryNum"/>
+                <span asp-validation-for="@Model.SnackCategory.CategoryNum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <label asp-for="@Model.SnackCategory.CategoryName" class="control-label"></label>
+                <input asp-for="@Model.SnackCategory.CategoryName" class="form-control" />
+                <span asp-validation-for="@Model.SnackCategory.CategoryName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SnackCategory.Description" class="control-label"></label>
+                <input asp-for="@Model.SnackCategory.Description" class="form-control" />
+                <span asp-validation-for="@Model.SnackCategory.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SnackCategory.Status" class="control-label"></label>
+                <select asp-for="@Model.SnackCategory.Status" class="dropdown-menu-right">
+                    <option value="0">不使用</option>
+                    <option value="1">使用</option>
+                </select>
+                <span asp-validation-for="@Model.SnackCategory.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="保存" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">返回主菜单</a>
 </div>
 
 @section Scripts {
