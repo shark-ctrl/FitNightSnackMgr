@@ -19,6 +19,8 @@ namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
 
         public int? PageIndex { get; set; }
 
+        public int? PageTotal { get; set; }
+
         
     }
 }

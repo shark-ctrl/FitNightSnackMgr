@@ -73,16 +73,12 @@
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="1">1</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="2">2</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="3">3</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="4">4</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="5">5</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="6">6</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="7">7</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="8">8</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="9">9</a></li>
-                                        <li><a asp-action="Index" asp-route-pageNumber="10">10</a></li>
+                                        @for (int i = 1; i <= Model.PageTotal; i++)
+                                        {
+                                            <li><a asp-action="Index" asp-route-pageNumber="@i">@i</a></li>
+                                        }
+
+                                       
                                         <li>
                                             <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex+1)" aria-label="下一页">
                                                 <span aria-hidden="true">&raquo;</span>
