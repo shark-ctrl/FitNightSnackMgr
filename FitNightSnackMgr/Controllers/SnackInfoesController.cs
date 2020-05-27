@@ -24,13 +24,14 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: SnackInfoes
-        public async Task<IActionResult> IndexAsync(int? pageIndex)
+        public async Task<IActionResult> IndexAsync(int? pageNumber)
         {
            
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
             {
-                SnackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo, pageIndex ?? 1, 10),
+                SnackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.OrderBy(s=>s.Price), pageNumber ?? 1, 10),
                 AdminName =GetSession("username"),
+                PageIndex= pageNumber ?? 1
             };
 
            // int pageSize = 3;
