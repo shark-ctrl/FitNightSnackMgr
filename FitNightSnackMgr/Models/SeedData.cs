@@ -47,12 +47,37 @@ namespace FitNightSnackMgr.Models
                 if (!context.SnackCategory.Any())
                 {
                     context.SnackCategory.AddRange(
+                     
                         
-                        new SnackCategory() { CategoryNum=1001,CategoryName="零食",Description="薯片，薯条，方便面等",Status=1},
+                         new SnackCategory() { CategoryNum=1001,CategoryName="零食",Description="薯片，薯条，方便面等",Status=1},
                          new SnackCategory() { CategoryNum = 1002, CategoryName = "烧烤", Description = "微波炉现烤 热狗 骨肉相连等", Status = 0 }
 
                         );
                      
+                    context.SaveChanges();
+                }
+
+
+                // Look for any SnackInfo.
+                if (!context.SnackInfo.Any())
+                {
+                    SnackInfo[] snackInfos =new SnackInfo[100];
+                    for (int i = 0; i < 100; i++)
+                    {
+                        SnackInfo snackInfo = new SnackInfo()
+                        { 
+                            ImgUrl = "~/images/1.jpg",
+                            Name=$"美味小吃{i}",
+                            SnackNum=1000+i,
+                            CategoryId=1001,
+                            DetailInfo="好吃好吃好吃好吃好吃",
+                            Price=100+i
+
+                        };
+                        snackInfos[i] = snackInfo;
+                    }
+                    context.SnackInfo.AddRange(snackInfos);
+
                     context.SaveChanges();
                 }
 

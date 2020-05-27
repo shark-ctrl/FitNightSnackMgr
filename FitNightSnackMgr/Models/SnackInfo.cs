@@ -13,36 +13,35 @@ namespace FitNightSnackMgr.Models
 
 
 
-        [Required]
+        [Required(ErrorMessage ="小吃编号不可为空")]
         [Display(Name ="小吃编号")]
+        [RegularExpression(@"\d{4,}", ErrorMessage ="小吃编号必须为数字 且大于4位")]
         public int SnackNum { get; set; }
 
 
 
-        [Required]
+        [Required(ErrorMessage = "分类编号不可为空")]
         [Display(Name ="所属分类")]
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
 
 
-
-
-
-        [Required]
+        [Required(ErrorMessage = "商品名不可为空")]
         [Display(Name = "商品名")]
         public string Name { get; set; }
 
 
         [Range(1, 100)]
         [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "价格不可为空")]
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "单价")]
         public decimal Price { get; set; }
 
-        [Required]
         [Display(Name = "图片")]
+        [Required(ErrorMessage = "图片不可为空")]
         public string ImgUrl { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="描述不可为空")]
         [Display(Name = "商品详细信息")]
         public string DetailInfo { get; set; }
 

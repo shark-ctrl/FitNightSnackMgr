@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitNightSnackMgr.Data;
 using FitNightSnackMgr.Models;
+using FitNightSnackMgr.ViewModels;
+using FitNightSnackMgr.ViewModels.SnackInfoViewModels;
+using Microsoft.AspNetCore.Http;
+using FitNightSnackMgr.Tools;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -20,10 +24,26 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: SnackInfoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexAsync(int? pageIndex)
         {
-            return View(await _context.SnackInfo.ToListAsync());
+           
+            SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
+            {
+                SnackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo, pageIndex ?? 1, 10),
+                AdminName =GetSession("username"),
+            };
+
+           // int pageSize = 3;
+            return View(snackInfoViewModels);
+            // return View(snackInfoViewModels);
         }
+
+        public string GetSession(string key)
+        {
+            string session_value = HttpContext.Session.GetString(key);
+            return session_value;
+        }
+
 
         // GET: SnackInfoes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -60,7 +80,7 @@ namespace FitNightSnackMgr.Controllers
             {
                 _context.Add(snackInfo);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             return View(snackInfo);
         }
@@ -111,7 +131,7 @@ namespace FitNightSnackMgr.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             return View(snackInfo);
         }
@@ -142,7 +162,7 @@ namespace FitNightSnackMgr.Controllers
             var snackInfo = await _context.SnackInfo.FindAsync(id);
             _context.SnackInfo.Remove(snackInfo);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexAsync));
         }
 
         private bool SnackInfoExists(int id)
