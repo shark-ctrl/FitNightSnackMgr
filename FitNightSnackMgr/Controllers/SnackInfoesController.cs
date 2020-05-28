@@ -24,14 +24,21 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: SnackInfoes
-        public async Task<IActionResult> IndexAsync(int? pageNumber)
+        public async Task<IActionResult> IndexAsync(int? pageNumber, string searchString)
         {
             int total=_context.SnackInfo.Count();
             int pagecount = total / 10+1;
             if (pagecount > 10) pagecount = 10;
+            PaginatedList<SnackInfo> snackInfos = null;
+            if (searchString != null)
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Name.Contains(searchString)).OrderBy(s => s.Price), pageNumber ?? 1, 10);
+            else
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.OrderBy(s => s.Price), pageNumber ?? 1, 10);
+
+
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
             {
-                SnackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.OrderBy(s => s.Price), pageNumber ?? 1, 10),
+                SnackInfos =snackInfos,
                 AdminName = GetSession("username"),
                 PageIndex = pageNumber ?? 1,
                 PageTotal = pagecount
