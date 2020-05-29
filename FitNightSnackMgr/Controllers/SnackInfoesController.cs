@@ -19,6 +19,7 @@ namespace FitNightSnackMgr.Controllers
     {
         private readonly FitNightSnackMgrContext _context;
         public string _dir = @"F:\FitNightSnackMgr\FitNightSnackMgr\wwwroot\images\";
+        public string relative_path = "/images/";
 
         public SnackInfoesController(FitNightSnackMgrContext context)
         {
@@ -111,7 +112,7 @@ namespace FitNightSnackMgr.Controllers
                 {
                    snackInfoViewModels.FormFile.CopyTo(fileStream);
                 }
-                snackInfoViewModels.SnackInfo.ImgUrl = "/images/" + file_name;
+                snackInfoViewModels.SnackInfo.ImgUrl =relative_path + file_name;
                 long category_id = _context.SnackCategory.FirstOrDefault(c => c.CategoryName == snackInfoViewModels.CategoryName).CategoryNum;
                 snackInfoViewModels.SnackInfo.CategoryId = category_id;
                 _context.Add(snackInfoViewModels.SnackInfo);
