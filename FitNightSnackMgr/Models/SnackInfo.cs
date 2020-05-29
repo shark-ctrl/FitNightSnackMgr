@@ -38,7 +38,6 @@ namespace FitNightSnackMgr.Models
         public decimal Price { get; set; }
 
         [Display(Name = "图片")]
-        [Required(ErrorMessage = "图片不可为空")]
         public string ImgUrl { get; set; }
 
         [Required(ErrorMessage ="描述不可为空")]

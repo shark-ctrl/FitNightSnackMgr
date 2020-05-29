@@ -1,56 +1,64 @@
-﻿@model FitNightSnackMgr.Models.SnackInfo
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout _snackinfo.cshtml";
+}
+
+@model FitNightSnackMgr.ViewModels.SnackInfoViewModels.SnackInfoViewModels
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>商品信息创建</h1>
 
-<h4>SnackInfo</h4>
+<h4>商品信息</h4>
 <hr />
 <div class="row">
+   
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create"  enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SnackNum" class="control-label"></label>
-                <input asp-for="SnackNum" class="form-control" />
-                <span asp-validation-for="SnackNum" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.SnackNum" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.SnackNum" class="form-control" value="@Model.SnackNum" />
+                <span asp-validation-for="@Model.SnackInfo.SnackNum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.CategoryId" class="control-label"></label>
+                <select asp-for="@Model.CategoryName" asp-items="@Model.CategoriesName" class="dropdown-menu-right" style="width:100px">
+                   
+                </select>
+             
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.Name" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.Name" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.Price" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.Price" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImgUrl" class="control-label"></label>
-                <input asp-for="ImgUrl" class="form-control" />
-                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.ImgUrl" class="control-label"></label>
+                <input type="file" asp-for="@Model.FormFile" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.ImgUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DetailInfo" class="control-label"></label>
-                <input asp-for="DetailInfo" class="form-control" />
-                <span asp-validation-for="DetailInfo" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.DetailInfo" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.DetailInfo" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.DetailInfo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="创建" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">返回主界面</a>
 </div>
 
 @section Scripts {

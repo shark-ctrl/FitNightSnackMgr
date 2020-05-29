@@ -11,12 +11,14 @@ using FitNightSnackMgr.ViewModels;
 using FitNightSnackMgr.ViewModels.SnackInfoViewModels;
 using Microsoft.AspNetCore.Http;
 using FitNightSnackMgr.Tools;
+using System.IO;
 
 namespace FitNightSnackMgr.Controllers
 {
     public class SnackInfoesController : Controller
     {
         private readonly FitNightSnackMgrContext _context;
+        public string _dir = @"F:\FitNightSnackMgr\FitNightSnackMgr\wwwroot\images\";
 
         public SnackInfoesController(FitNightSnackMgrContext context)
         {
@@ -77,7 +79,20 @@ namespace FitNightSnackMgr.Controllers
         // GET: SnackInfoes/Create
         public IActionResult Create()
         {
-            return View();
+            // Use LINQ to get list of category.
+            IQueryable<string> categoryQuery = from m in _context.SnackCategory
+                                            orderby m.CategoryNum
+                                            select m.CategoryName;
+            int SnackNum = _context.SnackInfo.Max(s => s.SnackNum)+1;
+            
+
+            SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
+            {
+                AdminName=GetSession("username"),
+                CategoriesName = new SelectList( categoryQuery.ToList()),
+                SnackNum=SnackNum
+            };
+            return View(snackInfoViewModels);
         }
 
         // POST: SnackInfoes/Create
@@ -85,15 +100,26 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SnackNum,CategoryId,Name,Price,ImgUrl,DetailInfo")] SnackInfo snackInfo)
+        public async Task<IActionResult> Create(SnackInfoViewModels snackInfoViewModels)
         {
+           
+
             if (ModelState.IsValid)
             {
-                _context.Add(snackInfo);
+                string file_name= $"{snackInfoViewModels.SnackInfo.SnackNum}_{DateTime.Now.ToString("yyyymmddHHmmss")}.jpg";
+                using (var fileStream = new FileStream(Path.Combine(_dir,file_name ), FileMode.Create, FileAccess.Write))
+                {
+                   snackInfoViewModels.FormFile.CopyTo(fileStream);
+                }
+                snackInfoViewModels.SnackInfo.ImgUrl = "/images/" + file_name;
+                long category_id = _context.SnackCategory.FirstOrDefault(c => c.CategoryName == snackInfoViewModels.CategoryName).CategoryNum;
+                snackInfoViewModels.SnackInfo.CategoryId = category_id;
+                _context.Add(snackInfoViewModels.SnackInfo);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
-            return View(snackInfo);
+          
+            return View(snackInfoViewModels);
         }
 
         // GET: SnackInfoes/Edit/5
