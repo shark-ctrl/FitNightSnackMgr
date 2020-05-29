@@ -91,7 +91,8 @@ namespace FitNightSnackMgr.Controllers
             {
                 AdminName=GetSession("username"),
                 CategoriesName = new SelectList( categoryQuery.ToList()),
-                SnackNum=SnackNum
+                SnackNum=SnackNum,
+                CheckPicture=true
             };
             return View(snackInfoViewModels);
         }
@@ -103,7 +104,16 @@ namespace FitNightSnackMgr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SnackInfoViewModels snackInfoViewModels)
         {
-           
+            int num = snackInfoViewModels.SnackInfo.SnackNum;
+            
+            if (!IsPicture(snackInfoViewModels.FormFile.FileName))
+            {
+                snackInfoViewModels.SnackNum = num;
+                snackInfoViewModels.AdminName = GetSession("username");
+                snackInfoViewModels.CheckPicture = false;
+                snackInfoViewModels.CategoriesName = GetCategories();
+                return View(snackInfoViewModels);
+            }
 
             if (ModelState.IsValid)
             {
@@ -121,6 +131,25 @@ namespace FitNightSnackMgr.Controllers
             }
           
             return View(snackInfoViewModels);
+        }
+
+
+        public bool IsPicture(string file_name)
+        {
+            int last_dot_index = file_name.LastIndexOf(".");
+            string file_type = file_name.Substring(last_dot_index);
+            if (file_type == ".jpg" || file_type == ".png")
+                return true;
+            return false;
+        }
+
+        public SelectList GetCategories()
+        {
+            IQueryable<string> categoryQuery = from m in _context.SnackCategory
+                                               orderby m.CategoryNum
+                                               select m.CategoryName;
+            SelectList CateGoriesList = new SelectList(categoryQuery.ToList());
+            return CateGoriesList;
         }
 
         // GET: SnackInfoes/Edit/5

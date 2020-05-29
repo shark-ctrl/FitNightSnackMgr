@@ -35,6 +35,9 @@ namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
         public SelectList CategoriesName { get; set; }
 
 
+        public bool CheckPicture { get; set; }
+
+
 
     }
 }
