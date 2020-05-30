@@ -8,15 +8,17 @@
 @{
     ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
+<link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
 
 <h1>商品信息创建</h1>
 
 <h4>商品信息</h4>
 <hr />
 <div class="row">
-   
+
     <div class="col-md-4">
-        <form asp-action="Create"  enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.SnackNum" class="control-label"></label>
@@ -25,10 +27,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.CategoryId" class="control-label"></label>
-                <select asp-for="@Model.CategoryName" asp-items="@Model.CategoriesName" class="dropdown-menu-right" style="width:100px">
-                   
+                <select asp-for="@Model.CategoryName" asp-items="@Model.CategoriesName" class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true">
                 </select>
-             
+
             </div>
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.Name" class="control-label"></label>
@@ -43,8 +44,9 @@
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.ImgUrl" class="control-label"></label>
                 <input type="file" asp-for="@Model.FormFile" class="form-control" />
-                @if (Model.CheckPicture == false) { <span id="SnackInfo_ImgUrl-error" class="text-danger">请检查图片格式</span>}
-                
+                @if (Model.CheckPicture == false)
+                {<span id="SnackInfo_ImgUrl-error" class="text-danger">请检查图片格式</span>}
+
             </div>
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.DetailInfo" class="control-label"></label>
@@ -61,6 +63,12 @@
 <div>
     <a asp-action="Index">返回主界面</a>
 </div>
+
+
+<script src="~/bootstrap-select/jquery.min.js"></script>
+<script src="~/bootstrap-select/bootstrap.min.js"></script>
+<script src="~/bootstrap-select/bootstrap-select.js"></script>
+
 
 
 @section Scripts {
