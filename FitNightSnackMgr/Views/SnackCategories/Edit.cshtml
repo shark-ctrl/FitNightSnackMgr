@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <label asp-for="@Model.SnackCategory.CategoryName" class="control-label"></label>
-                <select asp-for="@Model.SnackCategory.Status" asp-items="Model.Status">
+                <select asp-for="@Model.SnackCategory.Status" asp-items="Model.Status" class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true">
                     <option value="0">废弃</option>
                     <option value="1">使用</option>
                 </select>

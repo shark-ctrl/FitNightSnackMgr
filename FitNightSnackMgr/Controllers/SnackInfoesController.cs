@@ -82,6 +82,7 @@ namespace FitNightSnackMgr.Controllers
         {
             // Use LINQ to get list of category.
             IQueryable<string> categoryQuery = from m in _context.SnackCategory
+                                               where m.Status==1
                                             orderby m.CategoryNum
                                             select m.CategoryName;
             int SnackNum = _context.SnackInfo.Max(s => s.SnackNum)+1;

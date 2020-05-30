@@ -18,7 +18,10 @@
     <link rel="stylesheet" href="~/Content/Admin/_all-skins.min.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Scripts/Admin/jquery.min.js" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Scripts/Admin/simpleCart.min.js" id="theme-stylesheet">
-    
+
+    <link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
+    <link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+
 
 
 
@@ -59,7 +62,7 @@
                     <li><a asp-controller="SnackInfoes" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>商品管理</span></a></li>
                     <li><a asp-controller="OrderInfoes" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>订单管理</span></a></li>
                     <li><a asp-controller="prepaidCards" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>充值卡管理</span></a></li>
-                   
+
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -71,9 +74,12 @@
             @RenderBody()
             <!-- /.content -->
         </div>
+        <script src="~/bootstrap-select/jquery.min.js"></script>
+        <script src="~/bootstrap-select/bootstrap.min.js"></script>
+        <script src="~/bootstrap-select/bootstrap-select.js"></script>
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
         <script src="~/js/site.js" asp-append-version="true"></script>
         @RenderSection("Scripts", required: false)
         <!-- /.content-wrapper -->
@@ -96,7 +102,7 @@
         </aside>
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
+     immediately after the control sidebar -->
         <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
     </div>
 </body>

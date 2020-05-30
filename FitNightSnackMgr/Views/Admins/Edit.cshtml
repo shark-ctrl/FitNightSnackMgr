@@ -6,7 +6,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+
 
 <h1>管理员编辑</h1>
 
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.Permissions" class="control-label"></label>
-                <select asp-for="@Model.WorkMan.Permissions" title="Select a number" class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true" data-max-options="1">
+                <select asp-for="@Model.WorkMan.Permissions"  class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true" >
                     <option value="0">管理员</option>
                     <option value="1">普通员工</option>
 
@@ -56,9 +56,7 @@
 <div>
     <a asp-action="Index" class="btn btn-success">回到主菜单</a>
 </div>
-<script src="~/bootstrap-select/jquery.min.js"></script>
-<script src="~/bootstrap-select/bootstrap.min.js"></script>
-<script src="~/bootstrap-select/bootstrap-select.js"></script>
+
 
 
 @section Scripts {
