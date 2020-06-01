@@ -14,37 +14,102 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.LoginAccount" class="control-label"></label>
-                <input asp-for="@Model.WorkMan.LoginAccount" class="form-control" />
-                <span asp-validation-for="@Model.WorkMan.LoginAccount" class="text-danger"></span>
+                <input id="account" asp-for="@Model.WorkMan.LoginAccount" class="form-control"  />
+                <span id="valid_account" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.PassWord" class="control-label"></label>
-                <input asp-for="@Model.WorkMan.PassWord" class="form-control" type="password" />
-                <span asp-validation-for="@Model.WorkMan.PassWord" class="text-danger"></span>
+                <input id="password" asp-for="@Model.WorkMan.PassWord" value="@Model.Password" class="form-control" readonly/>
+                <span id="valid_password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.AdminName" class="control-label"></label>
-                <input asp-for="@Model.WorkMan.AdminName" class="form-control" />
-                <span asp-validation-for="@Model.WorkMan.AdminName" class="text-danger"></span>
+                <input id="name" asp-for="@Model.WorkMan.AdminName" class="form-control"  />
+                <span id="valid_name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.Permissions" class="control-label"></label>
-                <select asp-for="@Model.WorkMan.Permissions" class="dropdown-menu-right">
+                <select id="permission" asp-for="@Model.WorkMan.Permissions" class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true">
                     <option value="0">管理员</option>
                     <option value="1">普通员工</option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="创建" class="btn btn-primary" />
+                <input type="button" value="创建" id="create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Index" class="btn btn-success">回到列表</a>
 </div>
+
+
+
+
+<script type="text/javascript">
+
+        $(function () {
+
+            $("#create").click(function (e) {
+
+                let account = $("#account").val();
+                if (account == "") {
+                    $("#valid_account").text("请输入账号")
+                    return false;
+                }
+
+                let reg = new RegExp("^[0-9]*$");
+                if (!reg.test(account)) {
+                    $("#valid_account").text("账号只能为纯数字")
+                    return false;
+                }
+
+
+                let password = $("#password").val();
+                if (password == "") {
+                    $("#valid_password").text("请输入密码")
+                    return false;
+                }
+
+
+
+
+                let name = $("#name").val();
+                if (name == "") {
+                    $("#valid_name").text("请输入姓名")
+                    return false;
+                }
+
+            
+
+                e.preventDefault();
+                $.post("@Url.Action("Create", "Admins")",
+                    {
+                        name: $("#name").val(),
+                        account:$("#account").val(),
+                        password: $("#password").val(),
+                        permission: $("#permission option:checked").val()
+                    }
+                    , function (data) {
+                        if (data == true) {
+                            swal(`账号创建成功，该管理员账号为${account} 密码为${password} 请妥善保管`);
+                            $("#name").val("")
+                            $("#account").val("")
+                            $("#password").val("")
+                            $("#permission option:checked").val("")
+                        }
+                        else {
+                            swal("创建失败，请联系管理员",
+                                "error");
+                        }
+     });
+   });
+});
+
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

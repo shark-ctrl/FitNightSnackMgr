@@ -10,6 +10,8 @@ using FitNightSnackMgr.Models;
 using FitNightSnackMgr.ViewModels;
 using FitNightSnackMgr.Tools;
 using Microsoft.AspNetCore.Http;
+using FitNightSnackMgr.ViewModels.AdminViewModels;
+using System.Reflection.Metadata;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -26,11 +28,36 @@ namespace FitNightSnackMgr.Controllers
             _context = context;
         }
 
-        // GET: Admins
-        public IActionResult Index(Admin admin)
+       
+        //public IActionResult Index(AdminIndexViewModel admin)
+        //{
+        //    SaveSession("username", admin.AdminName);
+        //    SaveSession("permission", admin.Admin_permission.ToString());
+        //    SaveSession("admin_id", admin.AdminId.ToString());
+
+
+        //    AdminViewModel adminViewModel = new AdminViewModel();
+
+        //    int admin_permission = GetSessionAndConvertToInt("permission");
+
+        //    if (IsBoss(admin_permission))
+        //        adminViewModel.Admins = _context.Admin.Where(a=>a.Permissions!=-1).ToList();
+        //    else
+        //        adminViewModel.Admins = null;
+
+        //    adminViewModel.AdminName = GetSession("username");
+        //    adminViewModel.Admin_permission = GetSession("permission");
+        //    adminViewModel.AdminId = Convert.ToInt32(GetSession("admin_id"));
+
+        //    return View(adminViewModel);
+        //}
+
+
+        public IActionResult Index(string username,int userid,int permission,string token)
         {
-            SaveSession("username", admin.AdminName);
-            SaveSession("permission", admin.Permissions.ToString());
+            SaveSession("username", username);
+            SaveSession("permission", permission.ToString());
+            SaveSession("admin_id", userid.ToString());
 
 
             AdminViewModel adminViewModel = new AdminViewModel();
@@ -38,15 +65,18 @@ namespace FitNightSnackMgr.Controllers
             int admin_permission = GetSessionAndConvertToInt("permission");
 
             if (IsBoss(admin_permission))
-                adminViewModel.Admins = _context.Admin.Where(a=>a.Permissions!=-1).ToList();
+                adminViewModel.Admins = _context.Admin.Where(a => a.Permissions != -1).ToList();
             else
                 adminViewModel.Admins = null;
 
             adminViewModel.AdminName = GetSession("username");
             adminViewModel.Admin_permission = GetSession("permission");
+            adminViewModel.AdminId = Convert.ToInt32(GetSession("admin_id"));
 
             return View(adminViewModel);
         }
+
+
 
 
         public void SaveSession(string key,string value)
@@ -89,7 +119,8 @@ namespace FitNightSnackMgr.Controllers
 
             AdminViewModel adminViewModel = new AdminViewModel() { 
             WorkMan=admin,
-            AdminName=GetSession("username")
+            AdminName=GetSession("username"),
+            AdminId = Convert.ToInt32(GetSession("admin_id"))
             };
            
             return View(adminViewModel);
@@ -100,7 +131,10 @@ namespace FitNightSnackMgr.Controllers
         {
             AdminViewModel adminViewModel = new AdminViewModel()
             {
-                AdminName = GetSession("username")
+                AdminName = GetSession("username"),
+                AdminId = Convert.ToInt32(GetSession("admin_id")),
+                Password=PassWordHelper.GenerateCheckCode(8)
+                
             };
             return View(adminViewModel);
         }
@@ -108,28 +142,54 @@ namespace FitNightSnackMgr.Controllers
         // POST: Admins/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AdminViewModel admin_view_model)
-        {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(AdminViewModel admin_view_model)
+        //{
 
-           
+
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        admin_view_model.WorkMan.PassWord = PassWordHelper.Md532Salt(admin_view_model.WorkMan.PassWord,admin_view_model.WorkMan.AdminName) ;
+        //        admin_view_model.WorkMan.CreateTime = DateTime.Now;
+
+        //        _context.Add(admin_view_model.WorkMan);
+        //        await _context.SaveChangesAsync();              
+
+        //        return RedirectToAction("Index","Admins",admin_view_model.WorkMan);
+        //    }
+
+        //    admin_view_model.AdminName = GetSession("username");
+        //    return View(admin_view_model);
+        //}
+
+
+
+        [HttpPost]
+        public async Task<bool> Create(string account,string password,string name,int permission)
+        {
+            Admin admin = new Admin()
+           {
+                LoginAccount=account,
+                PassWord=PassWordHelper.Md532Salt( password,account),
+                AdminName=name,
+                Permissions=permission,
+                CreateTime=DateTime.Now
+
+            };
 
             if (ModelState.IsValid)
             {
-                string not_encrypted = admin_view_model.WorkMan.PassWord;
-                admin_view_model.WorkMan.PassWord = PassWordHelper.Md532Salt(not_encrypted, admin_view_model.WorkMan.LoginAccount);
-                admin_view_model.WorkMan.CreateTime = DateTime.Now;
-
-                _context.Add(admin_view_model.WorkMan);
-                await _context.SaveChangesAsync();              
-
-                return RedirectToAction("Index","Admins",admin_view_model.WorkMan);
+                _context.Add(admin);
+                await _context.SaveChangesAsync();
+                return true;
             }
 
-            admin_view_model.AdminName = GetSession("username");
-            return View(admin_view_model);
+            return false;
         }
+
+
 
         // GET: Admins/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -166,13 +226,13 @@ namespace FitNightSnackMgr.Controllers
             {
                 return NotFound();
             }
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
                     string not_encrypted = adminEditView.WorkMan.PassWord;
-                    adminEditView.WorkMan.PassWord = PassWordHelper.Md532Salt(not_encrypted, adminEditView.WorkMan.LoginAccount);
+                    //adminEditView.WorkMan.PassWord = PassWordHelper.Md532Salt(not_encrypted, adminEditView.WorkMan.LoginAccount);
                     adminEditView.WorkMan.CreateTime = DateTime.Now;
                     _context.Update(adminEditView.WorkMan);
                     await _context.SaveChangesAsync();
@@ -190,11 +250,11 @@ namespace FitNightSnackMgr.Controllers
                 }
                 
 
-                return RedirectToAction("Index", "Admins", adminEditView.WorkMan);
+                return RedirectToAction("Index", "Admins", adminEditView);
 
                // return RedirectToAction(nameof(Index));
             }
-            return View(adminEditView.WorkMan);
+            return View(adminEditView);
         }
 
         // GET: Admins/Delete/5
@@ -215,7 +275,8 @@ namespace FitNightSnackMgr.Controllers
             AdminViewModel adminViewModel = new AdminViewModel()
             {
                 WorkMan = admin,
-                AdminName=GetSession("username")
+                AdminName=GetSession("username"),
+                AdminId = Convert.ToInt32(GetSession("admin_id"))
 
             };
             return View(adminViewModel);
@@ -246,31 +307,90 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult Login(Admin admin_only_account_password)
-        {
-            bool res = CongdingTools.CheckObj(admin_only_account_password);
+        //[HttpPost]
+        //public ActionResult Login(Admin admin_only_account_password)
+        //{
+        //    bool res = CongdingTools.CheckObj(admin_only_account_password);
 
-            if (!res) return View();
-
-
-
-            string ori_password = admin_only_account_password.PassWord;
-            string md5_password = PassWordHelper.Md532Salt(ori_password, admin_only_account_password.LoginAccount);
+        //    if (!res) return View();
 
 
 
-            if (IsAdminExists(admin_only_account_password.LoginAccount, md5_password))
-            {
-                var admin = _context.Admin.First(a => a.LoginAccount == admin_only_account_password.LoginAccount);
+        //    string ori_password = admin_only_account_password.PassWord;
+        //    string md5_password = PassWordHelper.Md532Salt(ori_password, admin_only_account_password.LoginAccount);
+
+
+
+        //    if (IsAdminExists(admin_only_account_password.LoginAccount, md5_password))
+        //    {
+        //        var admin = _context.Admin.First(a => a.LoginAccount == admin_only_account_password.LoginAccount);
+
+        //        AdminIndexViewModel adminIndexViewModel = new AdminIndexViewModel()
+        //        {
+        //            AdminName=admin.AdminName,
+        //            AdminId=admin.Id,
+        //            Admin_permission=admin.Permissions
+        //        };
+
               
-                return RedirectToAction("Index", admin);
-            }
+        //        return RedirectToAction("Index", adminIndexViewModel);
+        //    }
                 
 
-            return View();
+        //    return View();
 
 
+        //}
+
+        [HttpPost]
+        public JsonResult Login(string account,string password) 
+        {
+            //    string md5_password = PassWordHelper.Md532Salt(ori_password, admin_only_account_password.LoginAccount);
+
+
+
+            //    if (IsAdminExists(admin_only_account_password.LoginAccount, md5_password))
+            //    {
+            //        var admin = _context.Admin.First(a => a.LoginAccount == admin_only_account_password.LoginAccount);
+
+            //        AdminIndexViewModel adminIndexViewModel = new AdminIndexViewModel()
+            //        {
+            //            AdminName=admin.AdminName,
+            //            AdminId=admin.Id,
+            //            Admin_permission=admin.Permissions
+            //        };
+
+
+            //        return RedirectToAction("Index", adminIndexViewModel);
+            //    }
+
+
+            //    return View();
+
+            string md5_salt_password = PassWordHelper.Md532Salt(password, account);
+            AdminLoginViewModel adminLoginViewModel = null;
+            if (IsAdminExists(account, md5_salt_password))
+            {
+                var admin = _context.Admin.First(a => a.LoginAccount == account&&a.PassWord==md5_salt_password);
+                 adminLoginViewModel = new AdminLoginViewModel()
+                {
+                    UserName = admin.AdminName,
+                    UserId = admin.Id,
+                    status = 200,
+                    Permission = admin.Permissions,
+                    Token = PassWordHelper.Md532Salt(admin.Id + admin.AdminName + admin.Permissions, account)
+
+                };
+            return Json(adminLoginViewModel);
+            }
+             adminLoginViewModel = new AdminLoginViewModel()
+            {
+               status=400
+
+            };
+
+            return Json(adminLoginViewModel);
+        
         }
 
         public IActionResult Logout()

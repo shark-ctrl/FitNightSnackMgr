@@ -39,6 +39,8 @@ namespace MvcMovie
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    //builder.UseUrls("http://localhost:5001/");
+                    
                 });
     }
 }

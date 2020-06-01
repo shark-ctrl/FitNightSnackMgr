@@ -33,5 +33,21 @@ namespace FitNightSnackMgr.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        [HttpPost]
+        public string Delete(int id)
+        {
+            try
+            {
+
+                return "deleted" + id;
+            }
+            catch (Exception ex)
+            {
+                //Log errror
+            }
+            return "failed";
+        }
     }
 }

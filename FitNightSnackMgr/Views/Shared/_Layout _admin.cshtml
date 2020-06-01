@@ -16,11 +16,23 @@
     <link rel="stylesheet" href="~/Content/Admin/AdminLTE.min.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Content/Admin/dataTables.bootstrap.css" id="theme-stylesheet">
     <link rel="stylesheet" href="~/Content/Admin/_all-skins.min.css" id="theme-stylesheet">
-    <link rel="stylesheet" href="~/Scripts/Admin/jquery.min.js" id="theme-stylesheet">
-    <link rel="stylesheet" href="~/Scripts/Admin/simpleCart.min.js" id="theme-stylesheet">
 
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+
+
+    <script src="~/bootstrap-select/jquery.min.js"></script>
+    <script src="~/bootstrap-select/bootstrap.min.js"></script>
+    <script src="~/bootstrap-select/bootstrap-select.js"></script>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <link rel="stylesheet" href="~/sweetalert/sweetalert.css" />
+    <script src="~/sweetalert/sweetalert-dev.js"></script>
+
 
 
 
@@ -43,12 +55,31 @@
             <nav class="navbar navbar-static-top">
                 <div class="navbar-custom-menu" style="padding-top:18px;padding-right:30px;color:white;font-size:16px;">
 
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-user"></i> @Model.AdminName <i class="caret"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a asp-controller="Admins" asp-action="Details" asp-route-id="@Model.AdminId">个人信息</a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="#">密码修改</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a tabindex="-1" asp-controller="Admins" asp-action="Logout">退出</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
 
-
-                    <span>欢迎：@Model.AdminName </span>  &nbsp;&nbsp;&nbsp; <a style="color:white" asp-controller="Admins" asp-action="Logout">退出登录</a>
+                    @*  <span>欢迎：@Model.AdminName </span>  &nbsp;&nbsp;&nbsp; <a style="color:white" asp-controller="Admins" asp-action="Logout">退出登录</a>*@
                 </div>
             </nav>
         </header>
+
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
@@ -75,14 +106,9 @@
             <!-- /.content -->
         </div>
 
-        <script src="~/bootstrap-select/jquery.min.js"></script>
-        <script src="~/bootstrap-select/bootstrap.min.js"></script>
-        <script src="~/bootstrap-select/bootstrap-select.js"></script>
 
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-        <script src="~/js/site.js" asp-append-version="true"></script>
         @RenderSection("Scripts", required: false)
         <!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -104,7 +130,7 @@
         </aside>
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
-     immediately after the control sidebar -->
+    immediately after the control sidebar -->
         <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
     </div>
 </body>

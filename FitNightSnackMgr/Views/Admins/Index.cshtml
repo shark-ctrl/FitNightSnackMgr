@@ -15,6 +15,7 @@
         </ol>*@
 </section>
 
+
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -60,9 +61,11 @@
                                                 <td>@job</td>
 
                                                 <td>
-                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">编辑</a> |
+                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">编辑</a> |
                                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">详细信息</a> |
-                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" >删除</a>
+                                                    <a id="reset" data-id="@item.Id" class="btn btn-warning">密码重置</a>|
+                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
+
                                                 </td>
                                             </tr>
                                         }

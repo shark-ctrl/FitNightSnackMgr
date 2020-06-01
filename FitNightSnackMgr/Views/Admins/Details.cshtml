@@ -7,7 +7,7 @@
 <h1>管理员详细信息</h1>
 
 <div>
-    
+
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -24,11 +24,17 @@
             @Html.DisplayFor(model => model.WorkMan.LoginAccount)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkMan.PassWord)
+            @Html.DisplayNameFor(model => model.WorkMan.Permissions)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkMan.PassWord)
-        </dd>
+        @if (Model.WorkMan.Permissions == 0)
+        {
+            <dd class="col-sm-10">管理员 </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">普通员工</dd>
+        }
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.WorkMan.CreateTime)
         </dt>
@@ -38,6 +44,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.WorkMan.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.WorkMan.Id" class="btn btn-warning">编辑</a> |
+    <a asp-action="Index" class="btn btn-success">回到列表</a>
 </div>
