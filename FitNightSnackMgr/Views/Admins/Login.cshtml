@@ -133,11 +133,12 @@
                                let userid = data["userId"];
                                let permission = data["permission"];
                                let token = data["token"];
+                               let account=data["account"]
 
                                if (data.status == 200) {
 
 
-                                   window.location.href = `https://localhost:44320/admins/index?username=${username}&userid=${userid}&permission=${permission}&token=${token}`
+                                   window.location.href = `https://localhost:44320/admins/index?username=${username}&userid=${userid}&permission=${permission}&token=${token}&account=${account}`
                                }
                                else {
                                    swal("登陆失败！", "请检查账号密码是否正确", "error")

@@ -50,6 +50,7 @@
 
 
 <script type="text/javascript">
+   
 
         $(function () {
 
@@ -95,11 +96,22 @@
                     }
                     , function (data) {
                         if (data == true) {
-                            swal(`账号创建成功，该管理员账号为${account} 密码为${password} 请妥善保管`);
-                            $("#name").val("")
-                            $("#account").val("")
-                            $("#password").val("")
-                            $("#permission option:checked").val("")
+                            //swal(`账号创建成功，该管理员账号为${account} 密码为${password} 请妥善保管`);
+                            swal({
+                                title: "账号创建成功",
+                                text: `${name}账号为${account} 密码为${password} 请妥善保管！`,
+                                type: "success",
+                                confirmButtonColor: "rgb(134,204,235)",
+                                confirmButtonText: "确定",
+                                closeOnConfirm: false,
+                                closeOnCancel: false
+                            },
+                                function (isConfirm) {
+                                    if (isConfirm) {
+
+                                        window.location.reload();
+                                    } 
+                                });
                         }
                         else {
                             swal("创建失败，请联系管理员",
