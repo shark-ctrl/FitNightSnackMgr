@@ -430,6 +430,19 @@ namespace FitNightSnackMgr.Controllers
             return View(nameof(Login));
         }
 
+
+
+
+        public void RemoveSession()
+        {
+            HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("permission");
+            HttpContext.Session.Remove("admin_id");
+            HttpContext.Session.Remove("token");
+            HttpContext.Session.Remove("account");
+
+        }
+
         public bool IsAdminExists(string login_account, string password)
         {
             return _context.Admin.Any(a => a.LoginAccount == login_account && a.PassWord == password);
@@ -501,7 +514,8 @@ namespace FitNightSnackMgr.Controllers
             admin.PassWord = md5_salt_new_password;
             _context.Update(admin);
             await _context.SaveChangesAsync();
-            return 20000;//修改成功
+            RemoveSession();
+            return 310;//修改成功
         }
 
 
