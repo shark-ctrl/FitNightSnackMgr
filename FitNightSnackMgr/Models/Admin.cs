@@ -8,6 +8,7 @@ namespace FitNightSnackMgr.Models
 {
     public class Admin
     {
+        [Display(Name = "ID号")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "姓名不可为空")]
