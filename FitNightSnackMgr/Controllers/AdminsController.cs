@@ -391,6 +391,11 @@ namespace FitNightSnackMgr.Controllers
             if (IsAdminExists(account, md5_salt_password))
             {
                 var admin = _context.Admin.First(a => a.LoginAccount == account && a.PassWord == md5_salt_password);
+
+
+                SaveSession("username", admin.AdminName);
+                SaveSession("admin_id", admin.Id.ToString());
+
                 adminLoginViewModel = new AdminLoginViewModel()
                 {
                     UserName = admin.AdminName,
@@ -516,6 +521,23 @@ namespace FitNightSnackMgr.Controllers
             await _context.SaveChangesAsync();
             RemoveSession();
             return 310;//修改成功
+        }
+
+        [HttpPost]
+        public JsonResult GetAdminInfo()
+        {
+            int admin_id =Convert.ToInt32(GetSession("admin_id"));
+            string name = GetSession("username");
+
+
+            AdminViewLayoutModel layout_data = new AdminViewLayoutModel()
+            {
+                AdminId = admin_id,
+                Name = name
+
+            };
+
+            return Json(layout_data);
         }
 
 

@@ -9,7 +9,6 @@ F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\FitNightSnackMgr.dl
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\FitNightSnackMgr.pdb
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\FitNightSnackMgr.Views.dll
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\FitNightSnackMgr.Views.pdb
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.RazorAssemblyInfo.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.RazorAssemblyInfo.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.AssemblyInfoInputs.cache
@@ -193,8 +192,6 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\D
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\Edit.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\Login.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout _admin.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout _user.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout _categories.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout _snackinfo.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\UpdatePassWord.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_my_Layout.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache
