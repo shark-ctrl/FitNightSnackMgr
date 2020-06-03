@@ -73,7 +73,7 @@ namespace FitNightSnackMgr.Controllers
             int admin_permission = GetSessionAndConvertToInt("permission");
 
             if (IsBoss(admin_permission))
-                adminViewModel.Admins = _context.Admin.Where(a => a.Permissions != -1).ToList();
+                adminViewModel.Admins = _context.Admin.Where(a => a.Permissions != -1&&a.Id!= userid).ToList();
             else
                 adminViewModel.Admins = null;
 
