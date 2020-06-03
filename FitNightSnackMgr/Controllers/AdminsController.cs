@@ -541,6 +541,78 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
+     
+        // GET: Admins/Edit/5
+        public async Task<IActionResult> AdminInfo(int? id)
+        {
+            if (!IsSafe())
+                return RedirectToAction("Login", "Admins");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var admin = await _context.Admin.FindAsync(id);
+            if (admin == null)
+            {
+                return NotFound();
+            }
+
+           
+
+            return View(admin);
+        }
+
+
+
+
+        [HttpPost]
+        public JsonResult ResetPwd(int? id)
+        {
+            ResetPwdModel resetPwdModel = null;
+            if (!IsSafe())
+            {
+                resetPwdModel = new ResetPwdModel()
+                {
+                    Code = 519,
+                    Message = "管理员账号状态存在异常，请联系运维人员"
+                };
+                return Json(resetPwdModel);
+         
+            }
+
+            var admin = _context.Admin.FirstOrDefault(a => a.Id == id);
+
+            if (admin == null)
+            {
+                resetPwdModel = new ResetPwdModel()
+                {
+                    Code = 518,
+                    Message = "该用户状态异常，请联系运维人员"
+                };
+                return Json(resetPwdModel);
+
+            }
+
+            string password = PassWordHelper.GenerateCheckCode(8);
+            string database_pwd = PassWordHelper.Md532Salt(password, admin.LoginAccount);
+            admin.PassWord = database_pwd;
+            _context.Update(admin);
+            _context.SaveChanges();
+
+            resetPwdModel = new ResetPwdModel()
+            {
+                Code = 520,
+                Message = $"密码重置成功,该管理员密码为{password}，请妥善保管",
+                NewPwd=database_pwd
+            };
+            return Json(resetPwdModel);
+
+
+
+        }
+
+
 
 
 

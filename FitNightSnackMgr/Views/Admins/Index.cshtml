@@ -60,7 +60,7 @@
                                                 <td>
                                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">编辑</a> |
                                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">详细信息</a> |
-                                                    <a id="reset" data-id="@item.Id" class="btn btn-warning">密码重置</a>|
+                                                    <a  data-id="@item.Id" class="btn btn-warning">密码重置</a>|
                                                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
 
                                                 </td>
@@ -85,3 +85,19 @@
     </div>
     <!-- /.row -->
 </section>
+<script>
+    $(".btn.btn-warning").click(function () {
+        let admin_id = $(this).attr("data-id");
+        alert(` ${typeof admin_id} ${admin_id}`)
+        $.post("@Url.Action("ResetPwd","Admins")",
+            { id: +admin_id },
+            function (data) {
+                if (data.status = 520) {
+                    swal("重置成功！", `${data.message}`, "success")
+                } else {
+                    swal("充值失败！", "管理员状态不合法", "error")
+                }
+
+        })
+    })
+</script>

@@ -120,7 +120,7 @@
                     }
                     , function (data) {
                         $("#my_name").text(data.name);
-                        $('#admin_info').attr('href', `/Admins/Details/${data.adminId}`); 
+                        $('#admin_info').attr('href', `/Admins/AdminInfo/${data.adminId}`); 
                         $('#admin_password_change').attr('href', `/Admins/UpdatePassWord/${data.adminId}`); 
                               
                  });

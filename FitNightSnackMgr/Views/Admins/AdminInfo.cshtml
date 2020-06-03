@@ -1,0 +1,57 @@
+﻿@model FitNightSnackMgr.Models.Admin
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>管理员详细信息</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.AdminName)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.AdminName)
+        </dd>
+
+
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.LoginAccount)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.LoginAccount)
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.Permissions)
+        </dt>
+        @if (Model.Permissions == 0)
+        {
+            <dd class="col-md-2">管理员 </dd>
+        }
+        else
+        {
+            <dd class="col-md-2">普通员工</dd>
+        }
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.CreateTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-success">回到列表</a>
+</div>
