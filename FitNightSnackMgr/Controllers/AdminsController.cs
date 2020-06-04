@@ -60,9 +60,13 @@ namespace FitNightSnackMgr.Controllers
 
             if ( (username == null || !userid.HasValue || !permission.HasValue || token == null || PassWordHelper.Md532Salt(userid + username + permission, account) != token) && (GetSession("admin_id") == null || GetSession("username") == null || GetSession("permission") == null || GetSession("account") == null || GetSession("token") == null || PassWordHelper.Md532Salt(GetSession("admin_id") + GetSession("username") + GetSession("permission"), GetSession("account")) != GetSession("token")))
                 return RedirectToAction("Login", "Admins");
-            SaveSession("username", username);
+
+
+
+            userid = userid ?? Convert.ToInt32(GetSession("admin_id"));
+           
             SaveSession("permission", permission.ToString());
-            SaveSession("admin_id", userid.ToString());
+          
             SaveSession("token", token);
             SaveSession("account", account);
 
@@ -73,7 +77,7 @@ namespace FitNightSnackMgr.Controllers
             int admin_permission = GetSessionAndConvertToInt("permission");
 
             if (IsBoss(admin_permission))
-                adminViewModel.Admins = _context.Admin.Where(a => a.Permissions != -1&&a.Id!= userid).ToList();
+                adminViewModel.Admins = _context.Admin.Where(a => a.Permissions != -1&&a.Id!= userid ).ToList();
             else
                 adminViewModel.Admins = null;
 
@@ -235,7 +239,8 @@ namespace FitNightSnackMgr.Controllers
             var admin_view_model = new AdminViewModel
             {
                 WorkMan = admin,
-                AdminName = HttpContext.Session.GetString("username")
+                AdminName = HttpContext.Session.GetString("username"),
+                AdminId = Convert.ToInt32(GetSession("admin_id"))
             };
 
             return View(admin_view_model);
@@ -339,11 +344,8 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
-        public ActionResult Login()
-        {
-
-            return View();
-        }
+        public ActionResult Login() => View();
+       
 
 
         //[HttpPost]
@@ -611,6 +613,20 @@ namespace FitNightSnackMgr.Controllers
 
 
         }
+
+
+
+        [HttpPost]
+        public bool CheckAccount(string account)
+        {
+            var admin = _context.Admin.FirstOrDefault(a => a.LoginAccount == account);
+            if (admin == null) return true;
+
+            return false;
+        
+        
+        }
+
 
 
 

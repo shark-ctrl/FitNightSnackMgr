@@ -71,7 +71,7 @@
                                     <a id="admin_info" >个人信息</a>
                                 </li>
                                 <li>
-                                    <a id="admin_password_change" asp-controller="Admins" asp-action="UpdatePassWord" asp-route-id="1">密码修改</a>
+                                    <a id="admin_password_change" >密码修改</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
@@ -94,7 +94,7 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" style="margin-top:10px; margin-left:15px;line-height:25px;font-size:16px;">
-                    <li><a asp-controller="Admins" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>员工管理</span></a></li>
+                    <li><a id="admin_manager" ><i class="fa fa-circle-o text-blue"></i> <span>员工管理</span></a></li>
                     <li><a asp-controller="Users" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>用户管理</span></a></li>
                     <li><a asp-controller="SnackCategories" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>分类管理</span></a></li>
                     <li><a asp-controller="SnackInfoes" asp-action="Index"><i class="fa fa-circle-o text-blue"></i> <span>商品管理</span></a></li>
@@ -121,7 +121,8 @@
                     , function (data) {
                         $("#my_name").text(data.name);
                         $('#admin_info').attr('href', `/Admins/AdminInfo/${data.adminId}`); 
-                        $('#admin_password_change').attr('href', `/Admins/UpdatePassWord/${data.adminId}`); 
+                        $('#admin_password_change').attr('href', `/Admins/UpdatePassWord/${data.adminId}`);
+                        $('#admin_manager').attr('href', `/Admins/Index`);
                               
                  });
 

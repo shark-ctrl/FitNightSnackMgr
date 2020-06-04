@@ -50,7 +50,22 @@
 
 
 <script type="text/javascript">
-   
+
+    $("#account").blur(function () {
+        let account_num = $(this).val();
+        $.post("@Url.Action("CheckAccount","Admins")",
+            { account: account_num },
+            function (data) {
+                if (data == false) {
+                    $("#valid_account").text("该账号已存在");
+                    return false;
+                }
+                  
+                $("#valid_account").text("");
+            }
+
+        )
+    });
 
         $(function () {
 
@@ -84,7 +99,10 @@
                     return false;
                 }
 
-            
+                //alert($("#valid_account").text())
+                if ($("#valid_account").text() == '该账号已存在') {
+                    return false;
+                }
 
                 e.preventDefault();
                 $.post("@Url.Action("Create", "Admins")",
