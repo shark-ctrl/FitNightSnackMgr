@@ -59,5 +59,9 @@ namespace FitNightSnackMgr.Models
         public int Status { get; set; }
 
 
+
+
+     
+
     }
 }

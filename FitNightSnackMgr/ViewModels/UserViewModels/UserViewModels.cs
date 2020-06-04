@@ -15,8 +15,19 @@ namespace FitNightSnackMgr.ViewModels.UserViewModels
 
         public User User { get; set; }
 
-      
 
-        
+        public string SearchString { get; set; }
+
+
+
+        public int PageIndex { get; set; }
+
+
+
+        public int PageTotal { get; set; }
+
+
+
+
     }
 }

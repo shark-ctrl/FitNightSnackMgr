@@ -23,17 +23,31 @@ namespace FitNightSnackMgr.Controllers
             _context = context;
         }
 
-        // GET: Users
-        public IActionResult Index()
+        // GET: SnackInfoes
+        public async Task<IActionResult> IndexAsync(int? pageNumber, string searchString)
         {
+            int total = _context.User.Count();
+            int pagecount = total / 10 + 1;
+            if (pagecount > 10) pagecount = 10;
+            PaginatedList<User> snackInfos = null;
+            if (searchString != null)
+                snackInfos = await PaginatedList<User>.CreateAsync(_context.User.Where(u => u.UserName.Contains(searchString)).OrderBy(u => u.Id), pageNumber ?? 1, 10);
+            else
+                snackInfos = await PaginatedList<User>.CreateAsync(_context.User.OrderBy(u => u.Id), pageNumber ?? 1, 10);
+
+
             UserViewModels userViewModels = new UserViewModels()
             {
+                Users = snackInfos,
                 AdminName = GetSession("username"),
-                Users = _context.User.ToList()
+                PageIndex = pageNumber ?? 1,
+                PageTotal = pagecount
             };
-            return View(userViewModels);
-        }
 
+            // int pageSize = 3;
+            return View(userViewModels);
+            // return View(snackInfoViewModels);
+        }
         public string GetSession(string key)
         {
             string session_value = HttpContext.Session.GetString(key);
