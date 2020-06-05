@@ -12,6 +12,7 @@ using FitNightSnackMgr.ViewModels.SnackInfoViewModels;
 using Microsoft.AspNetCore.Http;
 using FitNightSnackMgr.Tools;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -34,9 +35,9 @@ namespace FitNightSnackMgr.Controllers
             if (pagecount > 10) pagecount = 10;
             PaginatedList<SnackInfo> snackInfos = null;
             if (searchString != null)
-                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Name.Contains(searchString)).OrderBy(s => s.Price), pageNumber ?? 1, 10);
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Name.Contains(searchString)&&s.Status!=-1).OrderBy(s => s.Price), pageNumber ?? 1, 10);
             else
-                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.OrderBy(s => s.Price), pageNumber ?? 1, 10);
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s=> s.Status != -1).OrderBy(s => s.Price), pageNumber ?? 1, 10);
 
 
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
@@ -67,13 +68,21 @@ namespace FitNightSnackMgr.Controllers
             }
 
             var snackInfo = await _context.SnackInfo
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id&&m.Status!=-1);
             if (snackInfo == null)
             {
                 return NotFound();
             }
+            var categoryName = _context.SnackCategory.FirstOrDefault(c => c.CategoryNum == snackInfo.CategoryId).CategoryName;
 
-            return View(snackInfo);
+            SnackInfoDetailViewModel snackDetail = new SnackInfoDetailViewModel()
+            {
+
+                SnackInfo = snackInfo,
+                CateGoryName = categoryName
+            };
+
+            return View(snackDetail);
         }
 
         // GET: SnackInfoes/Create
@@ -123,6 +132,18 @@ namespace FitNightSnackMgr.Controllers
             }
           
             return View(snackInfoViewModels);
+        }
+
+
+
+        [HttpPost]
+        public bool IsExsist(string snackName)
+        {
+            var snack = _context.SnackInfo.Where(s => s.Name == snackName);
+
+            if (snack.Count()>0) return true;
+            return false;
+        
         }
 
 
@@ -181,23 +202,43 @@ namespace FitNightSnackMgr.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SnackNum,CategoryId,Name,Price,ImgUrl,DetailInfo")] SnackInfo snackInfo)
+        public async Task<IActionResult> Edit(int id, SnackEditViewModel  snackEditView)
         {
-            if (id != snackInfo.Id)
+            if (id != snackEditView.SnackInfo.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
+                if (snackEditView.PushFile != null) {
+                    string file_name = $"{snackEditView.SnackInfo.SnackNum}_{DateTime.Now.ToString("yyyymmddHHmmss")}.jpg";
+                    using (var fileStream = new FileStream(Path.Combine(_dir, file_name), FileMode.Create, FileAccess.Write))
+                    {
+                        snackEditView.PushFile.CopyTo(fileStream);
+                    }
+                    snackEditView.SnackInfo.ImgUrl = relative_path + file_name;
+                   
+
+                }
+
+
+
                 try
                 {
-                    _context.Update(snackInfo);
+                long category_id = _context.SnackCategory.FirstOrDefault(c => c.CategoryName == snackEditView.CategoryName).CategoryNum;
+                snackEditView.SnackInfo.CategoryId = category_id;
+                if (snackEditView.SnackInfo.ImgUrl==null)
+                { 
+                snackEditView.SnackInfo.ImgUrl = _context.SnackInfo.AsNoTracking().FirstOrDefault(s => s.Id == snackEditView.SnackInfo.Id).ImgUrl;
+
+                }
+                _context.Update(snackEditView.SnackInfo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SnackInfoExists(snackInfo.Id))
+                    if (!SnackInfoExists(snackEditView.SnackInfo.Id))
                     {
                         return NotFound();
                     }
@@ -207,8 +248,8 @@ namespace FitNightSnackMgr.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(snackInfo);
+            //}
+            return View(snackEditView);
         }
 
         // GET: SnackInfoes/Delete/5
@@ -226,7 +267,16 @@ namespace FitNightSnackMgr.Controllers
                 return NotFound();
             }
 
-            return View(snackInfo);
+            var categoryName = _context.SnackCategory.FirstOrDefault(c => c.CategoryNum == snackInfo.CategoryId).CategoryName;
+
+            SnackInfoDetailViewModel snackDetail = new SnackInfoDetailViewModel()
+            {
+
+                SnackInfo = snackInfo,
+                CateGoryName = categoryName
+            };
+
+            return View(snackDetail);
         }
 
         // POST: SnackInfoes/Delete/5
@@ -235,9 +285,10 @@ namespace FitNightSnackMgr.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var snackInfo = await _context.SnackInfo.FindAsync(id);
-            _context.SnackInfo.Remove(snackInfo);
+            snackInfo.Status = -1;
+            _context.SnackInfo.Update(snackInfo);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexAsync));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool SnackInfoExists(int id)

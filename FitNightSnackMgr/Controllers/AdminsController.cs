@@ -121,8 +121,11 @@ namespace FitNightSnackMgr.Controllers
         // GET: Admins/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (PassWordHelper.Md532Salt(GetSession("admin_id") + GetSession("username") + GetSession("permission"), GetSession("account")) != GetSession("token"))
+            if (!IsSafe())
+            {
+
                 return RedirectToAction("Login", "Admins");
+            }
             if (id == null)
             {
                 return NotFound();

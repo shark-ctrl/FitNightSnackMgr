@@ -73,7 +73,8 @@ namespace FitNightSnackMgr.Models
                             SnackNum=1000+i,
                             CategoryId=1001,
                             DetailInfo="好吃好吃好吃好吃好吃",
-                            Price=100+i
+                            Price=100+i,
+                            Status=1
 
                         };
                         snackInfos[i] = snackInfo;

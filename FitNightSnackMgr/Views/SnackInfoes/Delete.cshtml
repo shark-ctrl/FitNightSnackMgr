@@ -1,57 +1,70 @@
-﻿@model FitNightSnackMgr.Models.SnackInfo
+﻿@model FitNightSnackMgr.ViewModels.SnackInfoViewModels.SnackInfoDetailViewModel;
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+
+<div class="alert alert-danger" role="alert">您确定要删除本款小吃吗?</div>
+
 <div>
-    <h4>SnackInfo</h4>
+    <h4>@Model.SnackInfo.Name</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SnackNum)
+
+
+        <dt class="col-sm-2">
+
+            @*<img  src="@model=>model"/>*@
+
+            @Html.DisplayNameFor(model => model.SnackInfo.ImgUrl)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SnackNum)
+        <dd class="col-sm-10">
+            <img src="@Model.SnackInfo.ImgUrl" width="225px" height="225px" />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryId)
+
+
+
+
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.SnackNum)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.SnackNum)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CateGoryName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CateGoryName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImgUrl)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.Price)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImgUrl)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.Price)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DetailInfo)
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.DetailInfo)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DetailInfo)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.DetailInfo)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
 </div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="@Model.SnackInfo.Id" />
+    <input type="submit" value="删除" class="btn btn-danger" /> |
+    <a asp-action="Index" class="btn btn-info" >回到列表</a>
+</form>
+

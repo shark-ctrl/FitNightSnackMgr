@@ -14,8 +14,16 @@ namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
     {
         public SnackInfo SnackInfo { get; set; }
 
+
+
+
+        public IFormFile PushFile { get; set; }
+
         [Required(ErrorMessage = "图片不可为空")]
         public IFormFile FormFile { get; set; }
+
+
+
 
         public string CategoryName { get; set; }
 

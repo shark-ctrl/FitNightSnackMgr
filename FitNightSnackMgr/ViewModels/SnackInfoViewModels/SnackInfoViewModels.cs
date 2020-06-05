@@ -20,7 +20,7 @@ namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
 
         public int SnackNum { get; set; }
 
-
+       
         public string CategoryName { get; set; }
 
         public int? PageIndex { get; set; }
@@ -34,6 +34,8 @@ namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
 
 
         public SelectList CategoriesName { get; set; }
+
+     
 
 
 

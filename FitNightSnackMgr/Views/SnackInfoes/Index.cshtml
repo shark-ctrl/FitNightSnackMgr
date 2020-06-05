@@ -1,6 +1,22 @@
 ﻿
 @model FitNightSnackMgr.ViewModels.SnackInfoViewModels.SnackInfoViewModels
 
+
+
+<style>
+
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    table {
+        table-layout: fixed;
+    }
+</style>
+
+
+
 <section class="content-header">
     <h1>
         商品管理
@@ -38,7 +54,7 @@
                                         <tr role="row">
                                             <th tabindex="0" rowspan="1" colspan="1">图片</th>
                                             <th tabindex="0" rowspan="1" colspan="1">商品编号</th>
-                                            <th tabindex="0" rowspan="1" colspan="1">类别</th>
+                                           
                                             <th tabindex="0" rowspan="1" colspan="1">单价</th>
                                             <th tabindex="0" rowspan="1" colspan="1">描述</th>
 
@@ -51,7 +67,7 @@
                                             <tr role="row" class="odd">
                                                 <td>@item.Name</td>
                                                 <td>@item.SnackNum</td>
-                                                <td>@item.CategoryId</td>
+                                               
                                                 <td>@item.Price</td>
                                                 <td>@item.DetailInfo</td>
 

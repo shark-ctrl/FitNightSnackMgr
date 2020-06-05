@@ -53,7 +53,7 @@
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.Name" class="control-label"></label>
                 <input asp-for="@Model.SnackInfo.Name" class="form-control" />
-                <span asp-validation-for="@Model.SnackInfo.Name" class="text-danger"></span>
+                <span asp-validation-for="@Model.SnackInfo.Name" class="text-danger" id="name_invalid"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.Price" class="control-label"></label>
@@ -74,7 +74,7 @@
                 <span asp-validation-for="@Model.SnackInfo.DetailInfo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="创建" class="btn btn-primary" />
+                <input type="submit" value="创建" class="btn btn-primary" id="submit"/>
             </div>
 
         </form>
@@ -88,6 +88,34 @@
     <a asp-action="Index">返回主界面</a>
 </div>
 
+
+
+<script>
+    $("#SnackInfo_Name").blur(function () {
+
+
+        $.post("@Url.Action("IsExsist", "SnackInfoes")",
+            { snackName: $(this).val() },
+            function (data) {
+                if (data == true) {
+                    let span = $('<span id="SnackInfo_Price-error" class="">商品名已存在</span>')
+                    $('#name_invalid').append(span)
+                    $('#submit').attr("disabled", true);
+                } else {
+                    let span = $('<span id="SnackInfo_Price-error" class=""></span>')
+                    $('#name_invalid').remove("#SnackInfo_Price-error")
+                    $('#submit').attr("disabled", false);
+                }
+
+            }
+
+
+        )
+
+        
+    })
+
+</script>
 
 
 @section Scripts {

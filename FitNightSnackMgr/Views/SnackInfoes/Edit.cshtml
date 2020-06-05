@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="@Model.SnackInfo.Id" />
 
@@ -26,12 +26,12 @@
                         <span class="btn btn-primary btn-file">
                             <span class="fileinput-new">选择文件</span>
                             <span class="fileinput-exists">换一张</span>
-                            <input type="file" accept="image/gif,image/jpeg,image/x-png" asp-for="@Model.FormFile" />
+                            <input type="file" accept="image/gif,image/jpeg,image/x-png" asp-for="@Model.PushFile" />
                         </span>
                         <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
                     </div>
                 </div>
-                <span asp-validation-for="@Model.FormFile" class="text-danger"></span>
+                <span asp-validation-for="@Model.PushFile" class="text-danger"></span>
             </div>
 
 
@@ -71,7 +71,7 @@
             <span asp-validation-for="@Model.SnackInfo.DetailInfo" class="text-danger"></span>
         </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="保存修改" class="btn btn-primary" id="submit"/>
             </div>
         </form>
     </div>
@@ -82,27 +82,6 @@
 </div>
 
 
-<script>
-    document.getElementById('fileupload').onchange = function (evt) {
-    var tgt = evt.target || window.event.srcElement,
-        files = tgt.files;
-
-    // FileReader support
-    if (FileReader && files && files.length) {
-        var fr = new FileReader();
-        fr.onload = function () {
-            document.getElementById("image").src = fr.result;
-        }
-        fr.readAsDataURL(files[0]);
-    }
-
-    // Not supported
-    else {
-        // fallback -- perhaps submit the input to an iframe and temporarily store
-        // them on the server until the user's session ends.
-    }
-}
-</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

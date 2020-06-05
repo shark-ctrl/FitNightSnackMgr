@@ -1,54 +1,66 @@
-﻿@model FitNightSnackMgr.Models.SnackInfo
+﻿@model FitNightSnackMgr.ViewModels.SnackInfoViewModels.SnackInfoDetailViewModel;
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>商品详情</h1>
 
 <div>
-    <h4>SnackInfo</h4>
+    <h4>@Model.SnackInfo.Name</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SnackNum)
+
+
+        <dt class="col-sm-2">
+
+            @*<img  src="@model=>model"/>*@
+
+            @Html.DisplayNameFor(model => model.SnackInfo.ImgUrl)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SnackNum)
+        <dd class="col-sm-10">
+            <img src="@Model.SnackInfo.ImgUrl" width="225px" height="225px"/>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryId)
+
+
+
+
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.SnackNum)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.SnackNum)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CateGoryName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CateGoryName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImgUrl)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.Price)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImgUrl)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.Price)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DetailInfo)
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SnackInfo.DetailInfo)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DetailInfo)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SnackInfo.DetailInfo)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-success"  asp-route-id="@Model.SnackInfo.Id">编辑</a> |
+    <a asp-action="Index" class="btn btn-info">回到列表</a>
 </div>

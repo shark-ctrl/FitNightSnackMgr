@@ -45,6 +45,12 @@ namespace FitNightSnackMgr.Models
         public string DetailInfo { get; set; }
 
 
+        /// <summary>
+        /// -1 为不可用 1为可用
+        /// </summary>
+        public int Status { get; set; }
+
+
 
     }
 }
