@@ -1,4 +1,4 @@
-﻿@model FitNightSnackMgr.Models.SnackInfo
+﻿@model FitNightSnackMgr.ViewModels.SnackInfoViewModels.SnackEditViewModel;
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,37 +12,64 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="@Model.SnackInfo.Id" />
+
+
             <div class="form-group">
-                <label asp-for="SnackNum" class="control-label"></label>
-                <input asp-for="SnackNum" class="form-control" />
-                <span asp-validation-for="SnackNum" class="text-danger"></span>
+                <div class="h4">图片预览</div>
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                    <div class="fileinput-new thumbnail" style="width: 200px;height: auto;max-height:150px;">
+                        <img id='picImg' style="width: 100%;height: auto;max-height: 140px;" src="@Model.SnackInfo.ImgUrl" />
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一张</span>
+                            <input type="file" accept="image/gif,image/jpeg,image/x-png" asp-for="@Model.FormFile" />
+                        </span>
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.FormFile" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="@Model.SnackInfo.SnackNum" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.SnackNum" class="form-control"  readonly/>
+                <span asp-validation-for="@Model.SnackInfo.SnackNum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.CategoryId" class="control-label"></label>
+                <select asp-for="@Model.CategoryName" asp-items="@Model.CateGorieNameList" class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true">
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.Name" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.Name" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="@Model.SnackInfo.Price" class="control-label"></label>
+                <input asp-for="@Model.SnackInfo.Price" class="form-control" />
+                <span asp-validation-for="@Model.SnackInfo.Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImgUrl" class="control-label"></label>
-                <input asp-for="ImgUrl" class="form-control" />
-                <span asp-validation-for="ImgUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DetailInfo" class="control-label"></label>
-                <input asp-for="DetailInfo" class="form-control" />
-                <span asp-validation-for="DetailInfo" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                <label asp-for="@Model.SnackInfo.ImgUrl" class="control-label"></label>
+                <img id="image" alt="图片无法显示" width="225px" height="225px">
+                <input type="file" asp-for="@Model.FormFile" class="form-control" id="fileupload" accept="image/*" />
+
+
+            </div>*@
+        <div class="form-group">
+            <label asp-for="@Model.SnackInfo.DetailInfo" class="control-label"></label>
+            <textarea rows="10" class="form-control" asp-for="@Model.SnackInfo.DetailInfo"></textarea>
+            <span asp-validation-for="@Model.SnackInfo.DetailInfo" class="text-danger"></span>
+        </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -51,8 +78,31 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success" >回到列表</a>
 </div>
+
+
+<script>
+    document.getElementById('fileupload').onchange = function (evt) {
+    var tgt = evt.target || window.event.srcElement,
+        files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            document.getElementById("image").src = fr.result;
+        }
+        fr.readAsDataURL(files[0]);
+    }
+
+    // Not supported
+    else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+    }
+}
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -194,5 +194,6 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Users\I
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\Login.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\UpdatePassWord.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_my_Layout.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\AdminInfo.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\libman.json
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache

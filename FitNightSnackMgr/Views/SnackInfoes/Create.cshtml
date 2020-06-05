@@ -12,11 +12,33 @@
 
 <h4>商品信息</h4>
 <hr />
+
+
 <div class="row">
 
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <div class="h4">图片预览</div>
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                    <div class="fileinput-new thumbnail" style="width: 200px;height: auto;max-height:150px;">
+                        <img id='picImg' style="width: 100%;height: auto;max-height: 140px;" src="~/bootstrap-fileinput/noimage.png" />
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一张</span>
+                            <input type="file" accept="image/gif,image/jpeg,image/x-png" asp-for="@Model.FormFile" />
+                        </span>
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.FormFile" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.SnackNum" class="control-label"></label>
                 <input asp-for="@Model.SnackInfo.SnackNum" class="form-control" value="@Model.SnackNum" />
@@ -38,22 +60,23 @@
                 <input asp-for="@Model.SnackInfo.Price" class="form-control" />
                 <span asp-validation-for="@Model.SnackInfo.Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="@Model.SnackInfo.ImgUrl" class="control-label"></label>
-                <input type="file" asp-for="@Model.FormFile" class="form-control" />
-                @if (Model.CheckPicture == false)
-                {<span id="SnackInfo_ImgUrl-error" class="text-danger">请检查图片格式</span>}
+                <img id="image" alt="图片无法显示" width="225px" height="225px">
+                <input type="file" asp-for="@Model.FormFile" class="form-control"  accept="image/*" />
 
-            </div>
+
+            </div>*@
             <div class="form-group">
                 <label asp-for="@Model.SnackInfo.DetailInfo" class="control-label"></label>
-                <input asp-for="@Model.SnackInfo.DetailInfo" class="form-control" />
+                @*<input  asp-for="@Model.SnackInfo.DetailInfo" class="form-control" />*@
+                <textarea  rows="10" class="form-control"  asp-for="@Model.SnackInfo.DetailInfo"></textarea>
                 <span asp-validation-for="@Model.SnackInfo.DetailInfo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="创建" class="btn btn-primary" />
             </div>
-           
+
         </form>
     </div>
 </div>

@@ -42,7 +42,6 @@ namespace FitNightSnackMgr.Controllers
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
             {
                 SnackInfos =snackInfos,
-                AdminName = GetSession("username"),
                 PageIndex = pageNumber ?? 1,
                 PageTotal = pagecount
             };
@@ -90,10 +89,9 @@ namespace FitNightSnackMgr.Controllers
 
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()
             {
-                AdminName=GetSession("username"),
+              
                 CategoriesName = new SelectList( categoryQuery.ToList()),
                 SnackNum=SnackNum,
-                CheckPicture=true
             };
             return View(snackInfoViewModels);
         }
@@ -107,14 +105,7 @@ namespace FitNightSnackMgr.Controllers
         {
             int num = snackInfoViewModels.SnackInfo.SnackNum;
             
-            if (!IsPicture(snackInfoViewModels.FormFile.FileName))
-            {
-                snackInfoViewModels.SnackNum = num;
-                snackInfoViewModels.AdminName = GetSession("username");
-                snackInfoViewModels.CheckPicture = false;
-                snackInfoViewModels.CategoriesName = GetCategories();
-                return View(snackInfoViewModels);
-            }
+           
 
             if (ModelState.IsValid)
             {
@@ -166,7 +157,23 @@ namespace FitNightSnackMgr.Controllers
             {
                 return NotFound();
             }
-            return View(snackInfo);
+
+
+            // Use LINQ to get list of category.
+            IQueryable<string> categoryQuery = from m in _context.SnackCategory
+                                               where m.Status == 1
+                                               orderby m.CategoryNum
+                                               select m.CategoryName;
+
+
+
+            SnackEditViewModel EditViewModel = new SnackEditViewModel()
+            {
+                SnackInfo = snackInfo,
+                CateGorieNameList=new SelectList(categoryQuery.ToList())
+            };
+
+            return View(EditViewModel);
         }
 
         // POST: SnackInfoes/Edit/5
@@ -199,7 +206,7 @@ namespace FitNightSnackMgr.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             return View(snackInfo);
         }

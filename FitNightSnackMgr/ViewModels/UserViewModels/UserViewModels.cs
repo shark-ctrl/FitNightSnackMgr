@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitNightSnackMgr.Models;
+using FitNightSnackMgr.Tools;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace FitNightSnackMgr.ViewModels.UserViewModels
 {

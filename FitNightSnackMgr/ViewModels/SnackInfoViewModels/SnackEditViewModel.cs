@@ -10,34 +10,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FitNightSnackMgr.ViewModels.SnackInfoViewModels
 {
-    public class SnackInfoViewModels
+    public class SnackEditViewModel
     {
-        public PaginatedList<SnackInfo> SnackInfos { get; set; }
-
         public SnackInfo SnackInfo { get; set; }
 
-
-
-        public int SnackNum { get; set; }
-
+        [Required(ErrorMessage = "图片不可为空")]
+        public IFormFile FormFile { get; set; }
 
         public string CategoryName { get; set; }
 
-        public int? PageIndex { get; set; }
 
-        public int? PageTotal { get; set; }
-
-        public string SearchString { get; set; }
-
-        [Required(ErrorMessage ="图片不可为空")]
-        public IFormFile FormFile { get; set; }
-
-
-        public SelectList CategoriesName { get; set; }
-
-
-
-
-
+        public SelectList CateGorieNameList { get; set; }
     }
 }
