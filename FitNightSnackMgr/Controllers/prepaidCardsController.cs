@@ -68,7 +68,16 @@ namespace FitNightSnackMgr.Controllers
         // GET: prepaidCards/Create
         public IActionResult Create()
         {
-            return View();
+
+            CardCreateViewModel createViewModel = new CardCreateViewModel()
+            {
+                CardCode = PassWordHelper.GenerateCheckCode(8),
+                CarsSecret = PassWordHelper.GenerateCheckCode(8)
+
+            };
+
+
+            return View(createViewModel);
         }
 
         // POST: prepaidCards/Create
@@ -171,5 +180,33 @@ namespace FitNightSnackMgr.Controllers
         {
             return _context.prepaidCard.Any(e => e.Id == id);
         }
+
+
+
+        [HttpPost]
+        public async Task<bool> CreateCard(string cardcode, string secret, double money)
+        {
+
+            prepaidCard card = new prepaidCard()
+            {
+                CardCode=cardcode,
+                SecretKey=secret,
+                CardStatus=0,
+                Price=money
+
+            };
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(card);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+
+
     }
 }

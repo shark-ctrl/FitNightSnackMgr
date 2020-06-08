@@ -1,52 +1,109 @@
-﻿@model FitNightSnackMgr.Models.prepaidCard
+﻿@model FitNightSnackMgr.ViewModels.CardViewModel.CardCreateViewModel;
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "充值卡创建";
 }
 
-<h1>Create</h1>
+<h1>充值卡创建</h1>
 
-<h4>prepaidCard</h4>
+<h4>充值卡信息</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CardCode" class="control-label"></label>
-                <input asp-for="CardCode" class="form-control" />
-                <span asp-validation-for="CardCode" class="text-danger"></span>
+                <label asp-for="@Model.Card.CardCode" class="control-label"></label>
+                <input asp-for="@Model.Card.CardCode" class="form-control" readonly  value="@Model.CardCode"/>
+                <span asp-validation-for="@Model.Card.CardCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SecretKey" class="control-label"></label>
-                <input asp-for="SecretKey" class="form-control" />
-                <span asp-validation-for="SecretKey" class="text-danger"></span>
+                <label asp-for="@Model.Card.SecretKey" class="control-label"></label>
+                <input asp-for="@Model.Card.SecretKey" class="form-control" readonly value="@Model.CarsSecret"/>
+                <span asp-validation-for="@Model.Card.SecretKey" class="text-danger"></span>
+            </div>
+           
+            
+            <div class="form-group">
+                <label asp-for="@Model.Card.Price" class="control-label"></label>
+                <input  type="number" min="50" step="50" class="form-control" id="txt_money" />
+                <span id="valid_money" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserAccount" class="control-label"></label>
-                <input asp-for="UserAccount" class="form-control" />
-                <span asp-validation-for="UserAccount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CardStatus" class="control-label"></label>
-                <input asp-for="CardStatus" class="form-control" />
-                <span asp-validation-for="CardStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="button" id="btn_create"  value="创建" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success" >回到列表</a>
 </div>
+
+
+
+<script>
+    $('#txt_money').blur(function(){
+        if ($('#txt_money').val() == "") {
+            $("#valid_money").text("请输入金额")
+            return false;
+        }
+        $("#valid_money").text("")
+    });
+
+
+
+    $("#btn_create").click(function () {
+
+        if ($('#txt_money').val() == "") {
+            $("#valid_money").text("请输入金额")
+            return false;
+        }
+        $("#valid_account").text("")
+
+        let cardcode = `@Model.CardCode`;
+        let cardsecret = `@Model.CarsSecret`;
+
+        $.post('@Url.Action("CreateCard", "prepaidCards")',
+            {
+                cardcode:`@Model.CardCode`,
+                secret:`@Model.CarsSecret`,
+                money: $('#txt_money').val()
+
+            },
+            function (data) {
+                if (data == true) {
+                    swal({
+                        title: "充值卡创建成功",
+                        text: `卡号为 ${cardcode}口令为${cardsecret} 请妥善保管！`,
+                        type: "success",
+                        confirmButtonColor: "rgb(134,204,235)",
+                        confirmButtonText: "确定",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+
+                                window.location.reload();
+                            }
+                        });
+
+                } else {
+                    swal("创建失败，请联系管理员",
+                        "error");
+                }
+            }
+
+
+        )
+
+    });
+
+
+</script>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

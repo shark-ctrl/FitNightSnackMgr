@@ -101,7 +101,14 @@ namespace FitNightSnackMgr.Controllers
         // GET: OrdersController/Create
         public ActionResult Create()
         {
-            return View();
+            prepaidCard prepaidCard = new prepaidCard()
+            {
+
+                CardCode = PassWordHelper.GenerateCheckCode(8),
+                SecretKey = PassWordHelper.GenerateCheckCode(8)
+
+            };
+            return View(prepaidCard);
         }
 
         // POST: OrdersController/Create
