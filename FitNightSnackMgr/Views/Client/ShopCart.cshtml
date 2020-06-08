@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_client.cshtml";
+}
+
+<h2>Cart Details</h2>
+
+<div id="cartDetails">
+    <table class="table table-bordered table-hover table-striped" style="" data-bind="visible: cart.cartItems().length > 0">
+        <tbody>
+            <tr>
+                <th>Book</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>&nbsp;</th>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="/Books/Details/1">Knockout.js: Building Dynamic Client-Side Web Applications</a>
+                </td>
+                <td>$17.99</td>
+                <td>
+
+
+                    good
+
+                </td>
+                <td>$17.99</td>
+                <td>
+                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+            <!-- /ko -->
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+

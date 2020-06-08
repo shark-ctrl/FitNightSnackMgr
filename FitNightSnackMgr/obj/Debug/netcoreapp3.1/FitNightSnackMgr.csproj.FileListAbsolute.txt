@@ -202,3 +202,9 @@ F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\Syncfusion.Licensin
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\Syncfusion.Pdf.Portable.dll
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csproj.CoreCompileInputs.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.MvcApplicationPartsAssemblyInfo.cache
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout_client.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Index.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\detail.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\ShopCart.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Login.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Register.cshtml.g.cs

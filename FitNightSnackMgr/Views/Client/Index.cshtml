@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_client.cshtml";
+}
+
+
+<div class="jumbotron">
+    <h1>Jamie's Shopping Cart</h1>
+    <p class="lead">Shop for your favorite books, we've got the best prices.</p>
+    <p><a href="/Home/About" class="btn btn-primary btn-lg">Learn more »</a></p>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <a href="/Books/Details/1" class="thumbnail">
+            <img src="http://ecx.images-amazon.com/images/I/51T%2BWt430bL._AA160_.jpg" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="Knockout.js: Building Dynamic Client-Side Web Applications">
+            <span class="label label-success">Save 10 %</span>
+        </a>
+        <h4><a href="/Books/Details/1">Knockout.js: Building Dynamic Client-Side Web Applications</a></h4>
+        <p>Jamie Munro</p>
+        <p>Your Price: $17.99</p>
+        <p>List Price: <span style="text-decoration: line-through">$19.99</span></p>
+    </div>
+    <div class="col-md-4">
+        <a href="/Books/Details/2" class="thumbnail">
+            <img src="http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg" alt="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone" title="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone">
+            <span class="label label-success">Save 6 %</span>
+        </a>
+        <h4><a href="/Books/Details/2">20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone</a></h4>
+        <p>Jamie Munro</p>
+        <p>Your Price: $13.99</p>
+        <p>List Price: <span style="text-decoration: line-through">$14.99</span></p>
+    </div>
+</div>

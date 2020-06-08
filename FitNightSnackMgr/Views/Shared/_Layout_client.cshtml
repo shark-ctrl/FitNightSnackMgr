@@ -1,0 +1,86 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page - My ASP.NET Application</title>
+    <script src="~/client/Scripts/jquery-2.1.3.js"></script>
+
+   
+    <link href="~/client/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/client/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/client/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Jamie's Shopping Cart</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Home/About">About</a></li>
+                    <li><a href="/Home/Contact">Contact</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li class="dropdown">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                            <i id="my_name">admin</i>  <i class="caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a id="admin_info">个人信息</a>
+                            </li>
+                            <li>
+                                <a id="admin_password_change">密码修改</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a tabindex="-1">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="well well-lg col-lg-3">
+
+
+            <div class="list-group">
+                <h4 class="list-group-item-heading">Categories</h4>
+                <a href="/Books?categoryId=4" class="list-group-item ">Graphic Novels</a>
+                <a href="/Books?categoryId=3" class="list-group-item ">Non Fiction</a>
+                <a href="/Books?categoryId=2" class="list-group-item ">Science Fiction</a>
+                <a href="/Books?categoryId=1" class="list-group-item ">Technology</a>
+            </div>
+
+        </div>
+        <div class="col-lg-9">
+
+            @RenderBody()
+
+
+
+
+
+
+        </div>
+        <hr>
+        <footer>
+            <p>© 2020 - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    <script src="~/client/Scripts/bootstrap.js"></script>
+
+
+</body>
+</html>
