@@ -35,9 +35,9 @@ namespace FitNightSnackMgr.Controllers
             if (pagecount > 10) pagecount = 10;
             PaginatedList<SnackInfo> snackInfos = null;
             if (searchString != null)
-                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Name.Contains(searchString)&&s.Status!=-1).OrderBy(s => s.Price), pageNumber ?? 1, 10);
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Name.Contains(searchString)&&s.Status!=-1).OrderByDescending(s => s.Price), pageNumber ?? 1, 10);
             else
-                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s=> s.Status != -1).OrderBy(s => s.Price), pageNumber ?? 1, 10);
+                snackInfos = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s=> s.Status != -1).OrderByDescending(s => s.Price), pageNumber ?? 1, 10);
 
 
             SnackInfoViewModels snackInfoViewModels = new SnackInfoViewModels()

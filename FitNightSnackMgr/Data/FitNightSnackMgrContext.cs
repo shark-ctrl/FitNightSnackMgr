@@ -26,6 +26,9 @@ namespace FitNightSnackMgr.Data
 
         public DbSet<FitNightSnackMgr.Models.User> User { get; set; }
 
-       
+
+        public DbSet<Order>  Orders { get; set; }
+
+
     }
 }

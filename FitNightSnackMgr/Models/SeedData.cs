@@ -85,6 +85,34 @@ namespace FitNightSnackMgr.Models
                 }
 
 
+
+
+                // Look for any SnackInfo.
+                if (!context.Orders.Any())
+                {
+                    Order[] orders = new Order[100];
+                    for (int i = 0; i < 100; i++)
+                    {
+                        Order temp_order = new Order()
+                        {
+                           OrderId=DateTime.Now.ToString($"yyyyMMddhhmmss{i}"),
+                           Discount=1,
+                           OrderDetail="beer*1 smock*3",
+                           UserId=26,
+                           TotalPrice=100+i,
+                           Status=0,
+                            CreateTime=DateTime.Now
+                           
+
+                        };
+                        orders[i] = temp_order;
+                    }
+                    context.Orders.AddRange(orders);
+
+                    context.SaveChanges();
+                }
+
+
             }
         }
     }
