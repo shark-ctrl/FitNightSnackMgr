@@ -4,14 +4,16 @@ using FitNightSnackMgr.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitNightSnackMgr.Migrations
 {
     [DbContext(typeof(FitNightSnackMgrContext))]
-    partial class FitNightSnackMgrContextModelSnapshot : ModelSnapshot
+    [Migration("20200607103759_order_info_add_userid")]
+    partial class order_info_add_userid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,9 +57,6 @@ namespace FitNightSnackMgr.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
@@ -225,7 +224,7 @@ namespace FitNightSnackMgr.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("SecretKey")
                         .HasColumnType("nvarchar(max)");

@@ -4,14 +4,16 @@ using FitNightSnackMgr.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitNightSnackMgr.Migrations
 {
     [DbContext(typeof(FitNightSnackMgrContext))]
-    partial class FitNightSnackMgrContextModelSnapshot : ModelSnapshot
+    [Migration("20200608010415_card_modi")]
+    partial class card_modi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,6 +234,9 @@ namespace FitNightSnackMgr.Migrations
 
                     b.Property<string>("UserAccount")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

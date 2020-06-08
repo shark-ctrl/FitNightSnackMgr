@@ -1,0 +1,72 @@
+﻿@model FitNightSnackMgr.ViewModels.OrdersViewModel.OrderDetailModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>管理员详细信息</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+
+
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.OrderDetail)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.OrderDetail)
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        @if (Model.Status == 0)
+        {
+            <dd class="col-md-2">未完成 </dd>
+        }
+        else
+        {
+            <dd class="col-md-2">已完成</dd>
+        }
+
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-md-2">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-success">回到列表</a>
+</div>

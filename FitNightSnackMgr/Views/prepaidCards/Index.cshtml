@@ -1,59 +1,131 @@
-﻿@model IEnumerable<FitNightSnackMgr.Models.prepaidCard>
+﻿
+@model FitNightSnackMgr.ViewModels.CardViewModel.CardIndexViewModel;
 
-@{
-    ViewData["Title"] = "Index";
-}
+<section class="content-header">
+    <h1>
+        员工管理
+    </h1>
+    @*<ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Tables</a></li>
+            <li class="active">Data tables</li>
+        </ol>*@
+</section>
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CardCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecretKey)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAccount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CardStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CardCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecretKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAccount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CardStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+                            <div class="col-sm-12">
+                              
+                                  <p> <a asp-action="Create">创建充值卡</a></p>
+                                <form asp-controller="prepaidCards" asp-action="Index" method="get">
+                                    <p>                                      
+
+                                        充值卡查询: <input type="text" asp-for="@Model.SearchString"  placeholder="请输入卡号" />
+                                        <input type="submit" value="搜索" class="btn btn-default" />
+                                    </p>
+                                </form>
+
+
+
+
+
+
+
+
+
+
+                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                    <thead>
+                                        <tr role="row">
+
+                                            <th tabindex="0" rowspan="1" colspan="1">卡号</th>
+                                            <th tabindex="0" rowspan="1" colspan="1">密钥</th>
+                                            <th tabindex="0" rowspan="1" colspan="1">使用者</th>
+                                            <th tabindex="0" rowspan="1" colspan="1">使用状态</th>
+                                            <th tabindex="0" rowspan="1" colspan="1">价格</th>
+
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                            @foreach (var item in Model.Cards)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td class="sorting_1">@item.CardCode</td>
+                                                    <td>@item.SecretKey</td>
+                                                    <td>@item.UserAccount</td>
+                                                    <td>@item.Price</td>
+                                                    @{
+                                                        var status = "未使用";
+                                                        if (item.CardStatus == 1)
+                                                        {
+                                                            status = "已使用";
+                                                        }
+
+                                                    }
+
+                                                    <td>@status</td>
+
+                                                    
+                                                </tr>
+                                            }
+                                    </tbody>
+                                    @*<tfoot>
+                                            <tr><th rowspan="1" colspan="1">Rendering engine</th><th rowspan="1" colspan="1">Browser</th><th rowspan="1" colspan="1">Platform(s)</th><th rowspan="1" colspan="1">Engine version</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                                        </tfoot>*@
+                                </table>
+
+
+
+
+
+                                <nav aria-label="Page navigation " style="text-align:center">
+                                    <ul class="pagination pagination-lg">
+                                        <li>
+                                            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex-1)" aria-label="上一页">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageTotal; i++)
+                                        {
+                                            <li><a asp-action="Index" asp-route-pageNumber="@i">@i</a></li>
+                                        }
+
+
+                                        <li>
+                                            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex+1)" aria-label="下一页">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                        @*<div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div>*@
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

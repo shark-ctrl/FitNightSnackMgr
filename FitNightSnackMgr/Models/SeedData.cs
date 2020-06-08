@@ -113,6 +113,38 @@ namespace FitNightSnackMgr.Models
                 }
 
 
+
+
+
+                // Look for any Card.
+                if (!context.prepaidCard.Any())
+                {
+
+                    prepaidCard[] cards = new prepaidCard[100];
+                    for (int i = 0; i < 100; i++)
+                    {
+                        prepaidCard card = new prepaidCard()
+                        {
+                          CardCode=$"ddaa{i}",
+                          SecretKey=$"adassad{i}",
+                          CardStatus=0,
+                          Price=50,
+                        UserAccount= "666666666"
+
+                        };
+                        cards[i] = card;
+                    }
+                    context.prepaidCard.AddRange(cards);
+
+                    context.SaveChanges();
+                }
+
+
+
+
+
+
+
             }
         }
     }

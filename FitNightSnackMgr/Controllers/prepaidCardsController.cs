@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FitNightSnackMgr.Data;
 using FitNightSnackMgr.Models;
+using FitNightSnackMgr.ViewModels;
+using FitNightSnackMgr.ViewModels.CardViewModel;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -20,9 +22,29 @@ namespace FitNightSnackMgr.Controllers
         }
 
         // GET: prepaidCards
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber, string searchString)
         {
-            return View(await _context.prepaidCard.ToListAsync());
+
+            int total = _context.prepaidCard.Count();
+            int pagecount = total / 10 + 1;
+            if (pagecount > 10) pagecount = 10;
+            PaginatedList<prepaidCard> cards = null;
+            if (searchString != null)
+                cards = await PaginatedList<prepaidCard>.CreateAsync(_context.prepaidCard.Where(c=>c.CardCode==searchString), pageNumber ?? 1, 10);
+            else
+                cards = await PaginatedList<prepaidCard>.CreateAsync(_context.prepaidCard, pageNumber ?? 1, 10);
+
+
+            CardIndexViewModel ViewModels = new CardIndexViewModel()
+            {
+               Cards=cards,
+               PageIndex=pageNumber??1,
+               PageTotal=pagecount
+            };
+
+            // int pageSize = 3;
+            return View(ViewModels);
+            // return View(snackInfoViewModels);
         }
 
         // GET: prepaidCards/Details/5
