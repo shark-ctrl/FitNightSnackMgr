@@ -159,10 +159,16 @@ namespace FitNightSnackMgr.Controllers
         {
             string account = user.UserAccount;
             string password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
+           
 
-            var usr = _context.User.Where(u => u.UserAccount == user.UserAccount && u.Password == password);
-            if(usr.Count()>0)
+            var usr = _context.User.FirstOrDefault(u => u.UserAccount == user.UserAccount && u.Password == password);
+            if (usr!=null)
+            {
+                SaveSession("usr_name", usr.UserName);
                 return RedirectToAction("index");
+
+            }
+              
             return View();
 
         }
@@ -176,6 +182,7 @@ namespace FitNightSnackMgr.Controllers
         {
             user.Password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
             user.CreateTime = DateTime.Now;
+            user.UserName = $"用户{PassWordHelper.GenerateCheckCode(4)}";
             _context.Add(user);
             _context.SaveChanges();
 
@@ -183,6 +190,53 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
+
+
+        public void SaveSession(string key, string value)
+        {
+            if (value == null || value == "") return;
+
+            string session_value = HttpContext.Session.GetString(key);
+
+            HttpContext.Session.SetString(key, value);
+
+
+        }
+
+
+        [HttpPost]
+        public string GetUserName()
+        {
+            string username = GetSession("usr_name");
+
+            if (username == "null")
+                return "匿名用户";
+
+            return username;
+        
+        }
+
+
+
+
+        public string GetSession(string key)
+        {
+
+            string session_value = HttpContext.Session.GetString(key);
+            if (session_value == null)
+                session_value = "null";
+            return session_value;
+        }
+
+
+        public IActionResult Logout()
+        {
+
+            HttpContext.Session.Remove("usr_name");
+
+            return RedirectToAction("Login");
+        
+        }
 
     }
 }
