@@ -238,5 +238,21 @@ namespace FitNightSnackMgr.Controllers
         
         }
 
+
+        public IActionResult ShopCart()
+        {
+
+
+            return View();
+        }
+
+        public IActionResult ShopHistory() => View();
+
+
+        public IActionResult UserInfo() => View();
+
+
+        public IActionResult UpdatePwd() => View();
+
     }
 }

@@ -34,16 +34,16 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a id="admin_info">个人信息</a>
+                                <a id="admin_info" asp-controller="Client" asp-action="UserInfo">个人信息</a>
                             </li>
                             <li>
-                                <a id="admin_password_change">密码修改</a>
+                                <a id="admin_password_change" asp-controller="Client" asp-action="UpdatePwd">密码修改</a>
                             </li>
                             <li>
-                                <a id="admin_password_change">购物车</a>
+                                <a id="admin_password_change" asp-controller="Client" asp-action="ShopCart">购物车</a>
                             </li>
                             <li>
-                                <a id="admin_password_change">历史订单</a>
+                                <a id="admin_password_change" asp-controller="Client" asp-action="ShopHistory">历史订单</a>
                             </li>
                             <li class="divider"></li>
                             <li>
