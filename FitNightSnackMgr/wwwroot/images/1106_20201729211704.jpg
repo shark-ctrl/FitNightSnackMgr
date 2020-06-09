@@ -1,4 +1,0 @@
-Server=127.0.0.1;Database=DBExam_04;integrated security=true
-
-Add-Migration InitialCreate
-Update-Database

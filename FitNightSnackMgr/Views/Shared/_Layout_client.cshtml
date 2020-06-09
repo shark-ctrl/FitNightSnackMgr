@@ -19,13 +19,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Jamie's Shopping Cart</a>
+                <a class="navbar-brand" href="/">FIT深夜食堂</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/Home/About">About</a></li>
-                    <li><a href="/Home/Contact">Contact</a></li>
+                    <li><a asp-controller="Client" asp-action="Index">主页</a></li>
+                    <li><a   asp-controller="Client" asp-action="About" >关于</a></li>
+                    <li><a asp-controller="Client" asp-action="Contact" >联系我们</a></li>
                 </ul>
                 <ul class="nav pull-right">
                     <li class="dropdown">
@@ -39,9 +39,15 @@
                             <li>
                                 <a id="admin_password_change">密码修改</a>
                             </li>
+                            <li>
+                                <a id="admin_password_change">购物车</a>
+                            </li>
+                            <li>
+                                <a id="admin_password_change">历史订单</a>
+                            </li>
                             <li class="divider"></li>
                             <li>
-                                <a tabindex="-1">退出</a>
+                                <a tabindex="-1" asp-action="Logout">退出</a>
                             </li>
                         </ul>
                     </li>
@@ -54,11 +60,11 @@
 
 
             <div class="list-group">
-                <h4 class="list-group-item-heading">Categories</h4>
-                <a href="/Books?categoryId=4" class="list-group-item ">Graphic Novels</a>
-                <a href="/Books?categoryId=3" class="list-group-item ">Non Fiction</a>
-                <a href="/Books?categoryId=2" class="list-group-item ">Science Fiction</a>
-                <a href="/Books?categoryId=1" class="list-group-item ">Technology</a>
+                <h4 class="list-group-item-heading">类别</h4>
+                <a   asp-controller="Client"  asp-action="SnackShow" asp-route-id="1001" class="list-group-item ">零食</a>
+                <a asp-controller="Client"  asp-action="SnackShow" asp-route-id="1002" class="list-group-item ">啤酒饮料</a>
+                <a asp-controller="Client"  asp-action="SnackShow" asp-route-id="1003" class="list-group-item ">香烟</a>
+                <a asp-controller="Client"  asp-action="SnackShow" asp-route-id="1004" class="list-group-item ">麻辣烫</a>
             </div>
 
         </div>

@@ -204,7 +204,10 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.MvcApplicationPartsAssemblyInfo.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout_client.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Index.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\detail.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\ShopCart.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Login.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Register.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\About.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Contact.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\SnackShow.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\Details.cshtml.g.cs

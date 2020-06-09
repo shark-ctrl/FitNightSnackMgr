@@ -1,35 +1,41 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout_client.cshtml";
 }
+@model List<FitNightSnackMgr.Models.SnackInfo>
 
 
 <div class="jumbotron">
     <h1>Jamie's Shopping Cart</h1>
-    <p class="lead">Shop for your favorite books, we've got the best prices.</p>
-    <p><a href="/Home/About" class="btn btn-primary btn-lg">Learn more »</a></p>
+    <p class="lead">欢迎来到Fit深夜食堂.</p>
+    <p><a asp-controller="Client" asp-action="About" class="btn btn-primary btn-lg">了解更多 »</a></p>
 </div>
 
 
 
 <div class="row">
-    <div class="col-md-4">
-        <a href="/Books/Details/1" class="thumbnail">
-            <img src="http://ecx.images-amazon.com/images/I/51T%2BWt430bL._AA160_.jpg" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="Knockout.js: Building Dynamic Client-Side Web Applications">
-            <span class="label label-success">Save 10 %</span>
-        </a>
-        <h4><a href="/Books/Details/1">Knockout.js: Building Dynamic Client-Side Web Applications</a></h4>
-        <p>Jamie Munro</p>
-        <p>Your Price: $17.99</p>
-        <p>List Price: <span style="text-decoration: line-through">$19.99</span></p>
-    </div>
-    <div class="col-md-4">
-        <a href="/Books/Details/2" class="thumbnail">
-            <img src="http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg" alt="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone" title="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone">
-            <span class="label label-success">Save 6 %</span>
-        </a>
-        <h4><a href="/Books/Details/2">20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone</a></h4>
-        <p>Jamie Munro</p>
-        <p>Your Price: $13.99</p>
-        <p>List Price: <span style="text-decoration: line-through">$14.99</span></p>
-    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <a asp-controller="Client" asp-action="Details" asp-route-id="@item.Id" class="thumbnail">
+                <img src="@item.ImgUrl" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="@item.Name">
+                <span class="label label-success">Save 10 %</span>
+            </a>
+            <h4><a asp-controller="Client" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h4>
+            <p>@item.DetailInfo</p>
+            <p>现价: $@item.Price</p>
+            <p>原价: <span style="text-decoration: line-through">$@Convert.ToDouble(item.Price*1.1m) </span></p>
+        </div>
+    }
+
+
+    @*<div class="col-md-4">
+            <a href="/Books/Details/2" class="thumbnail">
+                <img src="http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg" alt="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone" title="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone">
+                <span class="label label-success">Save 6 %</span>
+            </a>
+            <h4><a href="/Books/Details/2">20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone</a></h4>
+            <p>Jamie Munro</p>
+            <p>Your Price: $13.99</p>
+            <p>List Price: <span style="text-decoration: line-through">$14.99</span></p>
+        </div>*@
 </div>

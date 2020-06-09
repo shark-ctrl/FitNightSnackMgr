@@ -68,10 +68,10 @@ namespace FitNightSnackMgr.Models
                     {
                         SnackInfo snackInfo = new SnackInfo()
                         { 
-                            ImgUrl = "~/images/1.jpg",
-                            Name=$"美味小吃{i}",
+                            ImgUrl = "/images/book3.jpg",
+                            Name=$"精神香烟{i}",
                             SnackNum=1000+i,
-                            CategoryId=1001,
+                            CategoryId=1003,
                             DetailInfo="好吃好吃好吃好吃好吃",
                             Price=100+i,
                             Status=1
