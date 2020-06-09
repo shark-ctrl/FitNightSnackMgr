@@ -150,5 +150,39 @@ namespace FitNightSnackMgr.Controllers
 
 
 
+        public IActionResult Login() => View();
+
+
+
+        [HttpPost]
+        public IActionResult Login(User user)
+        {
+            string account = user.UserAccount;
+            string password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
+
+            var usr = _context.User.Where(u => u.UserAccount == user.UserAccount && u.Password == password);
+            if(usr.Count()>0)
+                return RedirectToAction("index");
+            return View();
+
+        }
+
+
+
+        public IActionResult Register() => View();
+
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            user.Password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
+            user.CreateTime = DateTime.Now;
+            _context.Add(user);
+            _context.SaveChanges();
+
+            return RedirectToAction("Login");
+        }
+
+
+
     }
 }

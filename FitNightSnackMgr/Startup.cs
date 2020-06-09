@@ -63,7 +63,7 @@ namespace FitNightSnackMgr
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Client}/{action=Index}/{id?}");
+                    pattern: "{controller=Client}/{action=Login}/{id?}");
             });
         }
     }
