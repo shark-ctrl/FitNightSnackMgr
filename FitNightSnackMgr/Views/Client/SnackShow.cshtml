@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_client.cshtml";
+}
+@model FitNightSnackMgr.ViewModels.ClientViewModel.SnackShowViewModel;
+
+
+
+
+
+
+<h2>商品列表页</h2>
+<div class="row">
+
+
+    @foreach (var item in Model.SnackInfos)
+    {
+        <div class="col-md-4">
+            <a asp-controller="Client" asp-action="Details" asp-route-id="@item.Id"class="thumbnail" >
+                <img src="@item.ImgUrl" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="@item.Name">
+                <span class="label label-success">Save 10 %</span>
+            </a>
+            <h4><a   asp-controller="Client" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h4>
+            <p>@item.DetailInfo</p>
+            <p>现价: $@item.Price</p>
+            <p>原价: <span style="text-decoration: line-through">$@Convert.ToInt32(item.Price+20)</span></p>
+        </div>
+    }
+
+    @*<div class="col-md-4">
+                <a href="/Books/Details/2" class="thumbnail">
+                    <img src="http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg" alt="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone" title="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone">
+                    <span class="label label-success">Save 6 %</span>
+                </a>
+                <h4><a href="/Books/Details/2">20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone</a></h4>
+                <p>Jamie Munro</p>
+                <p>Your Price: $13.99</p>
+                <p>List Price: <span style="text-decoration: line-through">$14.99</span></p>
+            </div>
+            <div class="col-md-4">
+                <a href="/Books/Details/3" class="thumbnail">
+                    <img src="http://ecx.images-amazon.com/images/I/51LpqnDq8-L._AA160_.jpg" alt="20 Recipes for Programming MVC 3: Faster, Smarter Web Development" title="20 Recipes for Programming MVC 3: Faster, Smarter Web Development">
+                    <span class="label label-success">Save 15 %</span>
+                </a>
+                <h4><a href="/Books/Details/3">20 Recipes for Programming MVC 3: Faster, Smarter Web Development</a></h4>
+                <p>Jamie Munro</p>
+                <p>Your Price: $16.99</p>
+                <p>List Price: <span style="text-decoration: line-through">$19.99</span></p>
+            </div>
+        </div><div class="row">
+            <div class="col-md-4">
+                <a href="/Books/Details/4" class="thumbnail">
+                    <img src="http://ecx.images-amazon.com/images/I/41JC54HEroL._AA160_.jpg" alt="Rapid Application Development With CakePHP" title="Rapid Application Development With CakePHP">
+                    <span class="label label-success">Save 10 %</span>
+                </a>
+                <h4><a href="/Books/Details/4">Rapid Application Development With CakePHP</a></h4>
+                <p>Jamie Munro</p>
+                <p>Your Price: $13.49</p>
+                <p>List Price: <span style="text-decoration: line-through">$14.99</span></p>
+            </div>*@
+</div>
+
+
+
+<nav aria-label="Page navigation " style="text-align:center">
+    <ul class="pagination pagination-lg">
+        <li>
+            <a asp-action="SnackShow" asp-route-pageNumber="@(Model.PageIndex-1)" aria-label="上一页">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= Model.PageTotal; i++)
+        {
+            <li><a asp-action="SnackShow" asp-route-pageNumber="@i">@i</a></li>
+        }
+
+
+        <li>
+            <a asp-action="SnackShow" asp-route-pageNumber="@(Model.PageIndex+1)" aria-label="下一页">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
