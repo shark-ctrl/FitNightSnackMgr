@@ -165,6 +165,7 @@ namespace FitNightSnackMgr.Controllers
             if (usr!=null)
             {
                 SaveSession("usr_name", usr.UserName);
+                SaveSession("usr_id", usr.Id.ToString());
                 return RedirectToAction("index");
 
             }
@@ -239,12 +240,8 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
-        public IActionResult ShopCart()
-        {
-
-
-            return View();
-        }
+        public IActionResult ShopCart() => View();
+      
 
         public IActionResult ShopHistory() => View();
 
@@ -253,6 +250,52 @@ namespace FitNightSnackMgr.Controllers
 
 
         public IActionResult UpdatePwd() => View();
+
+
+
+
+
+        public bool AddToCart(int snackNum,int snackCount) 
+        {
+            ShoppingCart cartShop;
+            try
+            {
+                 cartShop = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+           
+            decimal onePrice = _context.SnackInfo.FirstOrDefault(s => s.SnackNum == snackNum).Price;
+           
+            if (cartShop != null)
+            {
+                cartShop.SnackCount += snackCount;
+                _context.Update(cartShop);
+
+
+            }
+            else
+            {
+
+                ShoppingCart shoppingCart = new ShoppingCart()
+                {
+                    UserId =Convert.ToInt32( GetSession("usr_id")),
+                    SnackId = snackNum,
+                    SnackCount = snackCount,
+                    TotalMoney = onePrice * snackCount
+
+
+                };
+                _context.Add(shoppingCart);
+
+            }
+
+            _context.SaveChangesAsync();
+            return true;
+        }
 
     }
 }

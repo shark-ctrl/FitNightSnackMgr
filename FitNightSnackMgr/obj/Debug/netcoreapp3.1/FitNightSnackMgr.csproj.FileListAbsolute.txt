@@ -169,11 +169,6 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\prepaid
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\prepaidCards\Details.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\prepaidCards\Edit.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\prepaidCards\Index.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\ShoppingCarts\Create.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\ShoppingCarts\Delete.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\ShoppingCarts\Details.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\ShoppingCarts\Edit.cshtml.g.cs
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\ShoppingCarts\Index.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\SnackCategories\Create.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\SnackCategories\Delete.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\SnackCategories\Details.cshtml.g.cs

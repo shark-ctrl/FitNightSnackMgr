@@ -14,11 +14,10 @@ namespace FitNightSnackMgr.Models
 
         public int UserId { get; set; }
 
-        public int SnackNum { get; set; }
+        public int SnackId { get; set; }
 
-        public int UnitNum { get; set; }
 
-        public int Num { get; set; }
+        public int SnackCount { get; set; }
 
 
         [DataType(DataType.Currency)]
