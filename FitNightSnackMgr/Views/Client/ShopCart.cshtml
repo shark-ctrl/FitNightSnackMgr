@@ -2,12 +2,13 @@
 @{
     Layout = "~/Views/Shared/_Layout_client.cshtml";
 }
+@model  List<FitNightSnackMgr.ViewModels.ShoppingCartViewModel.ShoppingCartViewModel>;
 
 <h2>购物车</h2>
 
 <div id="cartDetails">
     <table class="table table-bordered table-hover table-striped" style="" data-bind="visible: cart.cartItems().length > 0">
-        <tbody>
+        <thead>
             <tr>
                 <th>Snack</th>
                 <th>Unit Price</th>
@@ -15,28 +16,79 @@
                 <th>Price</th>
                 <th>&nbsp;</th>
             </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var item in Model)
+            {
+                <tr id="@item.SnackId">
+                    <td>
+                        <a asp-controller="Client" asp-action="Details" asp-route-id="@item.SnackId">@item.SnackName</a>
+                    </td>
+                    <td class="price" data-price="@item.TotalPrice">$@item.UnitPrice</td>
+                    <td>
+                        @item.SnackCount
+                    </td>
+                    <td>$@item.TotalPrice</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" id="btn_remove" data-snackNum="@item.SnackId" data_one_price="@item.TotalPrice">移除</button>
+                    </td>
+                </tr>
+            }
 
-            <tr>
-                <td>
-                    <a href="/Books/Details/1">Knockout.js: Building Dynamic Client-Side Web Applications</a>
-                </td>
-                <td>$17.99</td>
-                <td>
 
-
-                    good
-
-                </td>
-                <td>$17.99</td>
-                <td>
-                    <button type="button" class="btn btn-danger">移除</button>
-                </td>
-            </tr>
-            <!-- /ko -->
         </tbody>
     </table>
+    <h3>Total: $<span id="total_price"></span><button class="btn btn-default" id="btn_confirm" style="float:right">Confirm</button></h3>
+    
 </div>
+<script>
+    var totalPrice = 0;
+    $("td[class='price']").each(function (index, element) {
+        totalPrice += parseFloat( $(this).attr("data-price"))
+       
+    });
+   
+    $("#total_price").text(`${totalPrice}`)
 
+
+    $(".btn.btn-danger").click(function () {
+        let snackNum = parseInt($(this).attr("data-snackNum"));
+        let price = parseFloat($(this).attr('data_one_price'));
+        $(`#${snackNum}`).remove();
+        $.post("@Url.Action("RemoveCartSnack", "Client")",
+            { snackNum: snackNum },
+            function (res) {
+                if (res == true) {
+                    $(`#tr ${snackNum}`).remove();
+                   
+                    totalPrice -= price
+                    $("#total_price").text(`${totalPrice}`)
+                    
+                }
+            }
+
+        )
+    });
+
+    $("#btn_confirm").click(function () {
+        $.post("@Url.Action("Confirm","Client")", { totalPrice: totalPrice,secret:"1234" }, function (data) {
+            if (data == true) {
+                swal("下单成功", "请耐心等待商家配送至您宿舍",
+                    "success");
+                $("#total_price").text(`0`)
+            } else {
+                swal("下单失败", "请稍后重试",
+                    "error");
+            }
+
+        })
+
+        $("tbody").remove()
+    });
+
+
+</script>
 
 
 

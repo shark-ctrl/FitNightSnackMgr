@@ -52,5 +52,9 @@ namespace FitNightSnackMgr.Models
 
 
 
+        public DateTime CreateTime { get; set; }
+
+
+
     }
 }

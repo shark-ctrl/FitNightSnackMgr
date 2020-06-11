@@ -189,7 +189,6 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_my_Layout.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Admins\AdminInfo.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\libman.json
-F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Orders\Index.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Orders\Details.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\bin\Debug\netcoreapp3.1\Syncfusion.Compression.Portable.dll
@@ -209,3 +208,4 @@ F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\ShopHistory.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\UserInfo.cshtml.g.cs
 F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\Razor\Views\Client\UpdatePwd.cshtml.g.cs
+F:\FitNightSnackMgr\FitNightSnackMgr\obj\Debug\netcoreapp3.1\FitNightSnackMgr.csprojAssemblyReference.cache

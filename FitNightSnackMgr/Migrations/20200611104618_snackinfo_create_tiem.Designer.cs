@@ -4,14 +4,16 @@ using FitNightSnackMgr.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitNightSnackMgr.Migrations
 {
     [DbContext(typeof(FitNightSnackMgrContext))]
-    partial class FitNightSnackMgrContextModelSnapshot : ModelSnapshot
+    [Migration("20200611104618_snackinfo_create_tiem")]
+    partial class snackinfo_create_tiem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

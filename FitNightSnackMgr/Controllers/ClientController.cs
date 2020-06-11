@@ -9,6 +9,7 @@ using FitNightSnackMgr.Models;
 using FitNightSnackMgr.ViewModels;
 using FitNightSnackMgr.ViewModels.ClientViewModel;
 using Microsoft.Extensions.Logging;
+using FitNightSnackMgr.ViewModels.ShoppingCartViewModel;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -30,7 +31,7 @@ namespace FitNightSnackMgr.Controllers
         // GET: ClientController
         public ActionResult Index()
         {
-            var snackitems = _context.SnackInfo.Where(s => s.SnackNum == 1000).ToList();
+            var snackitems = _context.SnackInfo.Where(s=>s.Status != -1).OrderByDescending(s=>s.CreateTime).Take(3).ToList();
             return View(snackitems);
         }
       
@@ -39,7 +40,7 @@ namespace FitNightSnackMgr.Controllers
         public ActionResult Details(int id)
         {
 
-            var item = _context.SnackInfo.FirstOrDefault(s => s.Id == id);
+            var item = _context.SnackInfo.FirstOrDefault(s => s.SnackNum == id);
 
             return View(item);
         }
@@ -245,7 +246,6 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
-        public IActionResult ShopCart() => View();
       
 
         public IActionResult ShopHistory() => View();
@@ -314,6 +314,92 @@ namespace FitNightSnackMgr.Controllers
 
             };
             return Json(result1);
+        }
+
+
+        public IActionResult ShopCart()
+        {
+            var shoppintCartList = _context.ShoppingCart.Where(s => s.UserId == Convert.ToInt32(GetSession("usr_id"))).ToList();
+            List<ShoppingCartViewModel> cartViewList = new List<ShoppingCartViewModel>();
+
+            foreach (var item in shoppintCartList)
+            {
+                var snack= _context.SnackInfo.FirstOrDefault(s => s.SnackNum == item.SnackId);
+                ShoppingCartViewModel viewmodel = new ShoppingCartViewModel()
+                {
+                    SnackId = item.SnackId,
+                    SnackName = snack.Name,
+                    SnackCount = item.SnackCount,
+                    TotalPrice = item.TotalMoney,
+                    UnitPrice = snack.Price
+                };
+                cartViewList.Add(viewmodel);
+            }
+
+            
+            return View(cartViewList);
+        }
+
+        [HttpPost]
+        public bool RemoveCartSnack(int snackNum)
+        {
+            var cartSnack = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum);
+
+            if (cartSnack != null) 
+            {
+                _context.Remove(cartSnack);
+                _context.SaveChanges();
+                return true;
+            
+            }
+            return false;
+        }
+
+        [HttpPost]
+        public bool Confirm(double totalPrice,string secret)
+        {
+
+            try
+            {
+
+                var shopcart = _context.ShoppingCart.Where(s => s.UserId == Convert.ToInt32(GetSession("usr_id"))).ToList();
+                string details = "";
+                foreach (var item in shopcart)
+                {
+                    details += $"{_context.SnackInfo.FirstOrDefault(s => s.SnackNum == item.SnackId).Name}*{item.SnackCount} ";
+
+                }
+                Order order = new Order()
+                {
+                    OrderId = DateTime.Now.ToString("yyyyMMddhhmmss") + GetSession("usr_id"),
+                    Discount = 1,
+                    OrderDetail = details,
+                    TotalPrice = totalPrice,
+                    CreateTime = DateTime.Now,
+                    Status = 0
+
+
+                };
+                _context.Add(order);
+
+                _context.RemoveRange(shopcart);
+                _context.SaveChanges();
+
+                return true;
+
+
+            }
+            catch {
+
+
+                return false;
+            
+            }
+
+
+            
+        
+        
         }
 
     }

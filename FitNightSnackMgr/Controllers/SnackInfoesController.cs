@@ -126,6 +126,7 @@ namespace FitNightSnackMgr.Controllers
                 snackInfoViewModels.SnackInfo.ImgUrl =relative_path + file_name;
                 long category_id = _context.SnackCategory.FirstOrDefault(c => c.CategoryName == snackInfoViewModels.CategoryName).CategoryNum;
                 snackInfoViewModels.SnackInfo.CategoryId = category_id;
+                snackInfoViewModels.SnackInfo.CreateTime = DateTime.Now;
                 _context.Add(snackInfoViewModels.SnackInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -249,7 +250,7 @@ namespace FitNightSnackMgr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             //}
-            return View(snackEditView);
+           
         }
 
         // GET: SnackInfoes/Delete/5

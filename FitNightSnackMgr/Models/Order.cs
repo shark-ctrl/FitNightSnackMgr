@@ -12,19 +12,13 @@ namespace FitNightSnackMgr.Models
         public string OrderId { get; set; }
 
         public double Discount { get; set; }
-
        public string OrderDetail { get; set; }
-
 
         public int UserId { get; set; }
 
-
         public double TotalPrice { get; set; }
 
-
-
         public DateTime CreateTime { get; set; }
-
 
         /// <summary>
         /// 0 未派送 1 完成

@@ -5,7 +5,7 @@
 
 
 <div class="jumbotron">
-    <h1>Jamie's Shopping Cart</h1>
+    <h1>FIT Shopping Mall</h1>
     <p class="lead">欢迎来到Fit深夜食堂.</p>
     <p><a asp-controller="Client" asp-action="About" class="btn btn-primary btn-lg">了解更多 »</a></p>
 </div>
@@ -16,18 +16,18 @@
     @foreach (var item in Model)
     {
         <div class="col-md-4">
-            <a asp-controller="Client" asp-action="Details" asp-route-id="@item.Id" class="thumbnail">
+            <a asp-controller="Client" asp-action="Details" asp-route-id="@item.SnackNum" class="thumbnail">
                 <img src="@item.ImgUrl" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="@item.Name">
                 <span class="label label-success">Save 10 %</span>
             </a>
-            <h4><a asp-controller="Client" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h4>
+            <h4><a asp-controller="Client" asp-action="Details" asp-route-id="@item.SnackNum">@item.Name</a></h4>
             <p>@item.DetailInfo</p>
             <p>现价: $@item.Price</p>
-            <p>原价: <span style="text-decoration: line-through">$@Convert.ToDouble(item.Price*1.1m) </span></p>
+            <p>原价: <span style="text-decoration: line-through">$@Convert.ToDouble(item.Price * 1.1m) </span></p>
         </div>
     }
 
-
+    
     @*<div class="col-md-4">
             <a href="/Books/Details/2" class="thumbnail">
                 <img src="http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg" alt="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone" title="20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone">

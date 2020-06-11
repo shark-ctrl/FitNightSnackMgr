@@ -43,7 +43,7 @@ namespace FitNightSnackMgr.Controllers
 
                 return "deleted" + id;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 //Log errror
             }
