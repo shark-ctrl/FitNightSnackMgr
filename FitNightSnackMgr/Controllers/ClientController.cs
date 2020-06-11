@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 using FitNightSnackMgr.Models;
 using FitNightSnackMgr.ViewModels;
 using FitNightSnackMgr.ViewModels.ClientViewModel;
+using Microsoft.Extensions.Logging;
 
 namespace FitNightSnackMgr.Controllers
 {
     public class ClientController : Controller
     {
         private readonly FitNightSnackMgrContext _context;
+        private readonly ILogger _logger;
 
-        public ClientController(FitNightSnackMgrContext context)
+        public ClientController(FitNightSnackMgrContext context, ILogger<ClientController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 
@@ -157,6 +160,8 @@ namespace FitNightSnackMgr.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
+            _logger.LogInformation("------\r\nindex：hello world\r\n------");
+
             string account = user.UserAccount;
             string password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
            
@@ -255,17 +260,23 @@ namespace FitNightSnackMgr.Controllers
 
 
 
-        public bool AddToCart(int snackNum,int snackCount) 
+        public JsonResult AddToCart(int snackNum,int snackCount) 
         {
             ShoppingCart cartShop;
             try
             {
-                 cartShop = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum);
+                 cartShop = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum&&s.UserId==Convert.ToInt32( GetSession("usr_id")));
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Result result = new Result()
+                {
 
-                return false;
+                    StatusCode = 110,
+                    Message = $"{e.Message}"
+                    
+                };
+                return Json(result);
             }
            
             decimal onePrice = _context.SnackInfo.FirstOrDefault(s => s.SnackNum == snackNum).Price;
@@ -294,7 +305,15 @@ namespace FitNightSnackMgr.Controllers
             }
 
             _context.SaveChangesAsync();
-            return true;
+
+
+            Result result1 = new Result()
+            {
+                StatusCode = 20000,
+                Message = "添加成功"
+
+            };
+            return Json(result1);
         }
 
     }

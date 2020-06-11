@@ -57,10 +57,11 @@
                 snackCount:count
             },
             function (res) {
-                if (res == true) {
+                //alert(res['statusCode'])
+                if (res["statusCode"] == 20000) {
                     swal("商品加购成功","欢迎选购其他商品", "success");
                 } else {
-                    swal("添加失败", "请联系管理员","error");
+                    swal(res["message"], "请联系管理员","error");
                 }
             }
         )

@@ -68,11 +68,11 @@ namespace FitNightSnackMgr.Models
                     {
                         SnackInfo snackInfo = new SnackInfo()
                         { 
-                            ImgUrl = "/images/book3.jpg",
-                            Name=$"精神香烟{i}",
-                            SnackNum=1000+i,
-                            CategoryId=1003,
-                            DetailInfo="好吃好吃好吃好吃好吃",
+                            ImgUrl = "/images/book2.jpg",
+                            Name=$"精神beer{i}",
+                            SnackNum=Convert.ToInt32("1002"+i),
+                            CategoryId=1002,
+                            DetailInfo="精神麻辣烫",
                             Price=100+i,
                             Status=1
 

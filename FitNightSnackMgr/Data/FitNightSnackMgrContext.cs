@@ -12,6 +12,8 @@ namespace FitNightSnackMgr.Data
         public FitNightSnackMgrContext (DbContextOptions<FitNightSnackMgrContext> options)
             : base(options)
         {
+            
+           
         }
 
         public DbSet<Admin> Admin { get; set; }
