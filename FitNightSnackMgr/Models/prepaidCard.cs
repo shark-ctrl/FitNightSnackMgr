@@ -20,6 +20,9 @@ namespace FitNightSnackMgr.Models
 
         public string UserAccount { get; set; }
 
+        /// <summary>
+        /// -1废弃 1可用
+        /// </summary>
         public int CardStatus { get; set; }
 
         [Display(Name = "金额")]

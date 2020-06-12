@@ -414,16 +414,16 @@ namespace FitNightSnackMgr.Controllers
 
 
         [HttpPost]
-        public int UpdatePwd(string old_pwd,string new_pwd)
+        public int UpdatePwd(string old_pwd, string new_pwd)
         {
             string user_account = GetSession("usr_account");
             string md5_salt_pwd = PassWordHelper.Md532Salt(old_pwd, user_account);
-           
-            var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password==md5_salt_pwd);
+
+            var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password == md5_salt_pwd);
 
             if (user != null)
-            { 
-                user.Password= PassWordHelper.Md532Salt(new_pwd, user_account);
+            {
+                user.Password = PassWordHelper.Md532Salt(new_pwd, user_account);
                 _context.Update(user);
                 _context.SaveChanges();
                 return 20000;
@@ -431,8 +431,8 @@ namespace FitNightSnackMgr.Controllers
             }
 
             return 20001;
-           
-        
+
+
         }
 
 
@@ -440,7 +440,7 @@ namespace FitNightSnackMgr.Controllers
         [HttpPost]
         public JsonResult GetUserInfo()
         {
-            int userId =Convert.ToInt32(GetSession("usr_id"));
+            int userId = Convert.ToInt32(GetSession("usr_id"));
 
             var user = _context.User.FirstOrDefault(u => u.Id == userId);
 
@@ -451,10 +451,10 @@ namespace FitNightSnackMgr.Controllers
 
             ClientUser clientUser = new ClientUser()
             {
-               Username = user.UserName,
+                Username = user.UserName,
                 Money = user.Money,
-                 Phone= user.Phone,
-                Address= user.Address
+                Phone = user.Phone,
+                Address = user.Address
 
             };
 
@@ -464,7 +464,7 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
-        public bool SaveClientUserInfo(string username,string phone,string address)
+        public bool SaveClientUserInfo(string username, string phone, string address)
         {
             try
             {
@@ -486,6 +486,42 @@ namespace FitNightSnackMgr.Controllers
 
                 return false;
             }
+
+        }
+
+
+
+        [HttpPost]
+        public JsonResult AddClientUserMoney(string cardNum,string cardSecret)
+        {
+            int userId = Convert.ToInt32(GetSession("usr_id"));
+
+            var user = _context.User.FirstOrDefault(u => u.Id == userId);
+
+            var card = _context.prepaidCard.FirstOrDefault(c => c.CardCode == cardNum && c.SecretKey == cardSecret);
+            Result result = new Result();
+
+            if (card != null&&card.CardStatus!=-1)
+            {
+
+                user.Money +=Convert.ToDecimal(card.Price);
+                card.CardStatus = -1;
+                _context.Update(user);
+                _context.Update(card);
+                _context.SaveChanges();
+                result.Message = $"充值成功，本次充值金额为{card.Price}";
+                result.StatusCode = 20000;
+                return Json(result);
+            }
+
+
+            result.Message = $"充值失败，该卡号状态异常";
+            result.StatusCode = 20001;
+            return Json(result);
+
+
+
+
 
         }
 

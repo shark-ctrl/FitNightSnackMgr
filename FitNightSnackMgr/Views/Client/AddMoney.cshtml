@@ -10,10 +10,13 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>UpdatePwd</title>
+    <script src="~/client/Scripts/jquery-2.1.3.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="~/sweetalert/sweetalert.css" />
+    <script src="~/sweetalert/sweetalert-dev.js"></script>
 </head>
 <body>
 
@@ -29,17 +32,17 @@
 
                         <div class="form-group">
                             <label class="control-label">卡号</label>
-                            <input  class="form-control" />
+                            <input  class="form-control" id="card_num" required/>
                         </div>
                         <div class="form-group">
                             <label class="control-label">密钥</label>
-                            <input  class="form-control" />
+                            <input  class="form-control" id="card_secret" required/>
                         </div>
                         
 
 
                         <div class="form-group">
-                            <input type="submit" value="充值" class="btn btn-default" />
+                            <input type="button" value="充值" class="btn btn-default"  id="btn_addmoney"/>
                         </div>
                   
                 </div>
@@ -52,7 +55,39 @@
     </div>
 
     
+    <script>
 
+
+        $("#btn_addmoney").click(function () {
+        $.post("@Url.Action("AddClientUserMoney","Client")",
+            {
+                cardNum: $("#card_num").val(),
+                cardSecret: $("#card_secret").val(),
+            },
+            function (data) {
+                if (data["statusCode"] == 20000) {
+                swal(data["message"], "你可以在本店任意消费",
+                    "success");
+                    $("#card_num").val("");
+                    $("#card_secret").val("");
+            } else {
+                swal(data["message"], "请检查卡号密码是否正确",
+                    "error");
+
+            }
+
+
+        }
+
+
+    )
+
+    });
+
+
+
+
+    </script>
 
 
 
