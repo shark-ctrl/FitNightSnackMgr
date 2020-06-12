@@ -11,6 +11,8 @@ using FitNightSnackMgr.ViewModels.ClientViewModel;
 using Microsoft.Extensions.Logging;
 using FitNightSnackMgr.ViewModels.ShoppingCartViewModel;
 using FitNightSnackMgr.ViewModels.Other;
+using FitNightSnackMgr.ViewModels.OrdersViewModel;
+
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -169,11 +171,13 @@ namespace FitNightSnackMgr.Controllers
 
 
             var usr = _context.User.FirstOrDefault(u => u.UserAccount == user.UserAccount && u.Password == password);
+            string token = PassWordHelper.Md532Salt(usr.Id + usr.UserName, usr.UserAccount);
             if (usr != null)
             {
                 SaveSession("usr_name", usr.UserName);
                 SaveSession("usr_id", usr.Id.ToString());
                 SaveSession("usr_account", usr.UserAccount);
+                SaveSession("usr_token", token);
                 return RedirectToAction("index");
 
             }
@@ -250,7 +254,7 @@ namespace FitNightSnackMgr.Controllers
 
 
 
-        public IActionResult ShopHistory() => View();
+        //public IActionResult ShopHistory() => View();
 
 
         public IActionResult UserInfo() => View();
@@ -358,11 +362,39 @@ namespace FitNightSnackMgr.Controllers
         }
 
         [HttpPost]
-        public bool Confirm(double totalPrice, string secret)
+        public int Confirm(double totalPrice, string secret)
         {
+            int userId = Convert.ToInt32(GetSession("usr_id"));
+
+            var user = _context.User.FirstOrDefault(u => u.Id == userId);
+            string token = GetSession("usr_token");
+            string usr_token = PassWordHelper.Md532Salt(user.Id + user.UserName, user.UserAccount);
+            if (string.IsNullOrEmpty(token) || usr_token != token)
+            {
+                return 88882;//用户状态异常
+            }
+
+            if (user.Money < (decimal)totalPrice)
+            {
+
+                return 88885;//用户余额不足
+            
+            }
+
+            if (user.PaySecret != secret)
+            {
+
+                return 88883;
+            }
+
+
+
 
             try
             {
+
+                user.Money -= Convert.ToInt32( totalPrice);
+
 
                 var shopcart = _context.ShoppingCart.Where(s => s.UserId == Convert.ToInt32(GetSession("usr_id"))).ToList();
                 string details = "";
@@ -383,19 +415,20 @@ namespace FitNightSnackMgr.Controllers
 
 
                 };
+                _context.Update(user);
                 _context.Add(order);
 
                 _context.RemoveRange(shopcart);
                 _context.SaveChanges();
 
-                return true;
+                return 88888;//支付成功
 
 
             }
             catch {
 
 
-                return false;
+                return 88881;//支付异常
 
             }
 
@@ -434,6 +467,32 @@ namespace FitNightSnackMgr.Controllers
 
 
         }
+
+
+
+        [HttpPost]
+        public int UpdatePaycode(string old_pwd, string new_pwd)
+        {
+            string user_account = GetSession("usr_account");
+            string md5_salt_pwd = PassWordHelper.Md532Salt(old_pwd, user_account);
+
+            var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password == md5_salt_pwd);
+
+            if (user != null)
+            {
+                user.PaySecret = new_pwd;
+                _context.Update(user);
+                _context.SaveChanges();
+                return 20000;
+
+            }
+
+            return 20001;
+
+
+        }
+
+
 
 
 
@@ -518,6 +577,60 @@ namespace FitNightSnackMgr.Controllers
             result.Message = $"充值失败，该卡号状态异常";
             result.StatusCode = 20001;
             return Json(result);
+
+
+
+
+
+        }
+
+
+
+
+        public async Task<IActionResult> ShopHistoryAsync(int? pageNumber)
+        {
+            int userId = Convert.ToInt32(GetSession("usr_id"));
+            PaginatedList<Order> pageOrder = null;
+        
+             pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.UserId== userId), pageNumber ?? 1, 10); 
+           
+
+
+            List<OrderDetailModel> orderDetails = new List<OrderDetailModel>();
+
+            foreach (var item in pageOrder)
+            {
+
+                OrderDetailModel o = new OrderDetailModel()
+                {
+                    OrderId = item.OrderId,
+                    OrderDetail = item.OrderDetail,
+                    TotalPrice = item.TotalPrice,
+                    Status = item.Status,
+
+                };
+
+                orderDetails.Add(o);
+
+            }
+
+            int total = _context.Orders.Where(o => o.Status != 1).Count();
+            int pagecount = total / 10 + 1;
+            if (pagecount > 10) pagecount = 10;
+
+
+            OrderDetailAndPage orderDetailAndPage = new OrderDetailAndPage()
+            {
+
+                OrderDetailModels = orderDetails,
+                PageIndex = pageNumber ?? 1,
+                PageTotal = pagecount
+
+            };
+
+
+
+            return View(orderDetailAndPage);
 
 
 

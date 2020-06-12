@@ -53,8 +53,8 @@ namespace FitNightSnackMgr.Controllers
                     OrderDetail = item.OrderDetail,
                     TotalPrice = item.TotalPrice,
                     Status = item.Status,
-                    UserName = _context.User.FirstOrDefault(u => u.Id == 26).UserName,
-                    Address = _context.User.FirstOrDefault(u => u.Id == 26).Address
+                    UserName = _context.User.FirstOrDefault(u => u.Id == item.UserId).UserName,
+                    Address = _context.User.FirstOrDefault(u => u.Id == item.UserId).Address
 
                 };
 

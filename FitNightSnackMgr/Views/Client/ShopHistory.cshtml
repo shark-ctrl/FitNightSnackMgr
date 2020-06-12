@@ -3,35 +3,37 @@
     Layout = "~/Views/Shared/_Layout_client.cshtml";
 }
 
+@model FitNightSnackMgr.ViewModels.OrdersViewModel.OrderDetailAndPage
+
 <h2>购物车</h2>
 
 <div id="cartDetails">
     <table class="table table-bordered table-hover table-striped" style="" data-bind="visible: cart.cartItems().length > 0">
         <tbody>
             <tr>
-                <th>Snack</th>
-                <th>Unit Price</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th>订单编号</th>
+                <th>订单详情</th>
+                <th>总价</th>
+                <th>状态</th>
                 <th>&nbsp;</th>
             </tr>
 
-            <tr>
-                <td>
-                    <a href="/Books/Details/1">Knockout.js: Building Dynamic Client-Side Web Applications</a>
-                </td>
-                <td>$17.99</td>
-                <td>
-
-
-                    good
-
-                </td>
-                <td>$17.99</td>
-                <td>
-                    <button type="button" class="btn btn-danger">移除</button>
-                </td>
-            </tr>
+            @foreach (var item in Model.OrderDetailModels)
+            {
+                <tr>
+                    <td>
+                      @item.OrderId
+                    </td>
+                    <td>@item.OrderDetail</td>
+                    <td> $@item.TotalPrice </td>
+                     @if (item.Status == 0)
+                     {<td>未完成</td>}
+                     else {<td>已完成</td> }
+                    <td>
+                        <button type="button" class="btn btn-danger">移除</button>
+                    </td>
+                </tr>
+            }
             <!-- /ko -->
         </tbody>
     </table>

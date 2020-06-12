@@ -90,7 +90,13 @@
 
 
 
+    //return 88882;//用户状态异常
 
+    //return 88885;//用户余额不足
+
+    //return 88888;//支付成功
+
+    //return 88881;//支付异常
 
 
     $("#btn_confirm").click(function () {
@@ -104,19 +110,33 @@
             closeOnConfirm: false
         }, function (typedPassword) {
                 if (typedPassword != "" && typedPassword != false) {
-                    $.post("@Url.Action("Confirm","Client")", { totalPrice: totalPrice, secret: typedPassword }, function (data) {
-            if (data == true) {
-                swal("下单成功", "请耐心等待商家配送至您宿舍",
-                    "success");
-                $("#total_price").text(`0`)
-            } else {
-                swal("下单失败", "请稍后重试",
-                    "error");
-            }
+                    $.post("@Url.Action("Confirm","Client")", { totalPrice: totalPrice, secret: typedPassword }, function (res) {
+                        if (res == 88888) {
+                            swal("下单成功", "请耐心等待商家配送至您宿舍",
+                                "success");
+                            $("tbody").remove()
+                            $("#total_price").text(`0`);
+                            return true;
+                        } else if (res == 88882) {
+                            swal("用户状态异常", "请联系系统管理员",
+                                "error");
+                            return false;
+                        } else if (res == 88885) {
+                            swal("余额不足", "请及时充值",
+                                "error");
+                            return false;
+                        } else if (res == 88883) {
+                            swal("支付密码错误", "请重新输入",
+                                "error");
+                            return false;
+                        }else {
+                            swal("支付异常", "请联系管理员",
+                                "error");
+                        }
 
         });
 
-        $("tbody").remove()
+       
                 }
         });
 
