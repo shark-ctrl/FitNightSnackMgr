@@ -93,6 +93,7 @@ namespace FitNightSnackMgr.Controllers
         {
             if (ModelState.IsValid)
             {
+                user.PaySecret = "123456";
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -198,5 +199,9 @@ namespace FitNightSnackMgr.Controllers
         {
             return _context.User.Any(e => e.Id == id);
         }
+
+
+
+       
     }
 }

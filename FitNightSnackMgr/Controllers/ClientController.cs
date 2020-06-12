@@ -31,10 +31,10 @@ namespace FitNightSnackMgr.Controllers
         // GET: ClientController
         public ActionResult Index()
         {
-            var snackitems = _context.SnackInfo.Where(s=>s.Status != -1).OrderByDescending(s=>s.CreateTime).Take(3).ToList();
+            var snackitems = _context.SnackInfo.Where(s => s.Status != -1).OrderByDescending(s => s.CreateTime).Take(3).ToList();
             return View(snackitems);
         }
-      
+
 
         // GET: ClientController/Details/5
         public ActionResult Details(int id)
@@ -128,14 +128,14 @@ namespace FitNightSnackMgr.Controllers
 
 
 
-        public async Task<IActionResult> SnackShowAsync(int id,int? pageNumber)
+        public async Task<IActionResult> SnackShowAsync(int id, int? pageNumber)
         {
 
             int total = _context.SnackInfo.Count();
             int pagecount = total / 6 + 1;
             if (pagecount > 10) pagecount = 10;
-           
-            PaginatedList <SnackInfo> snackitems = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Status != -1&&s.CategoryId==id).OrderByDescending(s => s.Price), pageNumber ?? 1, 6);
+
+            PaginatedList<SnackInfo> snackitems = await PaginatedList<SnackInfo>.CreateAsync(_context.SnackInfo.Where(s => s.Status != -1 && s.CategoryId == id).OrderByDescending(s => s.Price), pageNumber ?? 1, 6);
 
             SnackShowViewModel snackShowViewModel = new SnackShowViewModel()
             {
@@ -165,17 +165,18 @@ namespace FitNightSnackMgr.Controllers
 
             string account = user.UserAccount;
             string password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
-           
+
 
             var usr = _context.User.FirstOrDefault(u => u.UserAccount == user.UserAccount && u.Password == password);
-            if (usr!=null)
+            if (usr != null)
             {
                 SaveSession("usr_name", usr.UserName);
                 SaveSession("usr_id", usr.Id.ToString());
+                SaveSession("usr_account", usr.UserAccount);
                 return RedirectToAction("index");
 
             }
-              
+
             return View();
 
         }
@@ -220,7 +221,7 @@ namespace FitNightSnackMgr.Controllers
                 return "匿名用户";
 
             return username;
-        
+
         }
 
 
@@ -242,11 +243,11 @@ namespace FitNightSnackMgr.Controllers
             HttpContext.Session.Remove("usr_name");
 
             return RedirectToAction("Login");
-        
+
         }
 
 
-      
+
 
         public IActionResult ShopHistory() => View();
 
@@ -260,12 +261,12 @@ namespace FitNightSnackMgr.Controllers
 
 
 
-        public JsonResult AddToCart(int snackNum,int snackCount) 
+        public JsonResult AddToCart(int snackNum, int snackCount)
         {
             ShoppingCart cartShop;
             try
             {
-                 cartShop = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum&&s.UserId==Convert.ToInt32( GetSession("usr_id")));
+                cartShop = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum && s.UserId == Convert.ToInt32(GetSession("usr_id")));
             }
             catch (Exception e)
             {
@@ -274,13 +275,13 @@ namespace FitNightSnackMgr.Controllers
 
                     StatusCode = 110,
                     Message = $"{e.Message}"
-                    
+
                 };
                 return Json(result);
             }
-           
+
             decimal onePrice = _context.SnackInfo.FirstOrDefault(s => s.SnackNum == snackNum).Price;
-           
+
             if (cartShop != null)
             {
                 cartShop.SnackCount += snackCount;
@@ -293,7 +294,7 @@ namespace FitNightSnackMgr.Controllers
 
                 ShoppingCart shoppingCart = new ShoppingCart()
                 {
-                    UserId =Convert.ToInt32( GetSession("usr_id")),
+                    UserId = Convert.ToInt32(GetSession("usr_id")),
                     SnackId = snackNum,
                     SnackCount = snackCount,
                     TotalMoney = onePrice * snackCount
@@ -324,7 +325,7 @@ namespace FitNightSnackMgr.Controllers
 
             foreach (var item in shoppintCartList)
             {
-                var snack= _context.SnackInfo.FirstOrDefault(s => s.SnackNum == item.SnackId);
+                var snack = _context.SnackInfo.FirstOrDefault(s => s.SnackNum == item.SnackId);
                 ShoppingCartViewModel viewmodel = new ShoppingCartViewModel()
                 {
                     SnackId = item.SnackId,
@@ -336,7 +337,7 @@ namespace FitNightSnackMgr.Controllers
                 cartViewList.Add(viewmodel);
             }
 
-            
+
             return View(cartViewList);
         }
 
@@ -345,18 +346,18 @@ namespace FitNightSnackMgr.Controllers
         {
             var cartSnack = _context.ShoppingCart.FirstOrDefault(s => s.SnackId == snackNum);
 
-            if (cartSnack != null) 
+            if (cartSnack != null)
             {
                 _context.Remove(cartSnack);
                 _context.SaveChanges();
                 return true;
-            
+
             }
             return false;
         }
 
         [HttpPost]
-        public bool Confirm(double totalPrice,string secret)
+        public bool Confirm(double totalPrice, string secret)
         {
 
             try
@@ -372,7 +373,7 @@ namespace FitNightSnackMgr.Controllers
                 Order order = new Order()
                 {
                     OrderId = DateTime.Now.ToString("yyyyMMddhhmmss") + GetSession("usr_id"),
-                    UserId=Convert.ToInt32( GetSession("usr_id")),
+                    UserId = Convert.ToInt32(GetSession("usr_id")),
                     Discount = 1,
                     OrderDetail = details,
                     TotalPrice = totalPrice,
@@ -394,12 +395,42 @@ namespace FitNightSnackMgr.Controllers
 
 
                 return false;
-            
+
             }
 
 
-            
-        
+
+
+
+        }
+
+
+
+
+
+        public IActionResult AddMoney() => View();
+
+
+
+        [HttpPost]
+        public int UpdatePwd(string old_pwd,string new_pwd)
+        {
+            string user_account = GetSession("usr_account");
+            string md5_salt_pwd = PassWordHelper.Md532Salt(old_pwd, user_account);
+           
+            var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password==md5_salt_pwd);
+
+            if (user != null)
+            { 
+                user.Password= PassWordHelper.Md532Salt(new_pwd, user_account);
+                _context.Update(user);
+                _context.SaveChanges();
+                return 20000;
+
+            }
+
+            return 20001;
+           
         
         }
 

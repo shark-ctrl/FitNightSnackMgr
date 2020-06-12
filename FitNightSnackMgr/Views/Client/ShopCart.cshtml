@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout_client.cshtml";
 }
-@model  List<FitNightSnackMgr.ViewModels.ShoppingCartViewModel.ShoppingCartViewModel>;
+@model List<FitNightSnackMgr.ViewModels.ShoppingCartViewModel.ShoppingCartViewModel>;
 
 <h2>购物车</h2>
 
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            
+
             @foreach (var item in Model)
             {
                 <tr id="@item.SnackId">
@@ -40,15 +40,30 @@
         </tbody>
     </table>
     <h3>Total: $<span id="total_price"></span><button class="btn btn-default" id="btn_confirm" style="float:right">Confirm</button></h3>
-    
+
 </div>
 <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var totalPrice = 0;
     $("td[class='price']").each(function (index, element) {
         totalPrice += parseFloat( $(this).attr("data-price"))
-       
+
     });
-   
+
     $("#total_price").text(`${totalPrice}`)
 
 
@@ -61,18 +76,35 @@
             function (res) {
                 if (res == true) {
                     $(`#tr ${snackNum}`).remove();
-                   
+
                     totalPrice -= price
                     $("#total_price").text(`${totalPrice}`)
-                    
+
                 }
             }
 
         )
     });
 
+
+
+
+
+
+
+
     $("#btn_confirm").click(function () {
-        $.post("@Url.Action("Confirm","Client")", { totalPrice: totalPrice,secret:"1234" }, function (data) {
+
+        swal({
+            title: "请输入支付密码)",
+            text: "初始密码为123456，请及时修改",
+            type: "input",
+            inputType: "password",
+            showCancelButton: close,
+            closeOnConfirm: false
+        }, function (typedPassword) {
+                if (typedPassword != "" && typedPassword != false) {
+                    $.post("@Url.Action("Confirm","Client")", { totalPrice: totalPrice, secret: typedPassword }, function (data) {
             if (data == true) {
                 swal("下单成功", "请耐心等待商家配送至您宿舍",
                     "success");
@@ -82,9 +114,16 @@
                     "error");
             }
 
-        })
+        });
 
         $("tbody").remove()
+                }
+        });
+
+
+
+
+
     });
 
 

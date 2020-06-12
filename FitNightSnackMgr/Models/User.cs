@@ -59,6 +59,10 @@ namespace FitNightSnackMgr.Models
 
 
 
+        public string PaySecret { get; set; }
+
+
+
 
      
 
