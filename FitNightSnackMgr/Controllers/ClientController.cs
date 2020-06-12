@@ -469,27 +469,45 @@ namespace FitNightSnackMgr.Controllers
         }
 
 
+        public IActionResult UpdatePaycode() => View();
+
 
         [HttpPost]
         public int UpdatePaycode(string old_pwd, string new_pwd)
         {
-            string user_account = GetSession("usr_account");
-            string md5_salt_pwd = PassWordHelper.Md532Salt(old_pwd, user_account);
+            int userId = Convert.ToInt32(GetSession("usr_id"));
+            var user = _context.User.FirstOrDefault(u => u.Id == userId&&u.PaySecret==old_pwd);
 
-            var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password == md5_salt_pwd);
+            if (user == null)
+                return 4004;//账号状态异常
 
-            if (user != null)
-            {
-                user.PaySecret = new_pwd;
-                _context.Update(user);
-                _context.SaveChanges();
-                return 20000;
+            if (!IsSafe(user.Id, user.UserName, user.UserAccount))
+                return 110;//账号预警 存在安全威胁
 
-            }
-
-            return 20001;
+            user.PaySecret = new_pwd;
+            _context.Update(user);
+            _context.SaveChanges();
+            return 20000;
 
 
+
+            
+
+
+        }
+
+
+        public bool IsSafe(int userId,string username,string useraccount)
+        {
+            string sessionToken = GetSession("usr_token");
+            string userToken = PassWordHelper.Md532Salt(userId + username, useraccount);
+
+            if (string.IsNullOrEmpty(sessionToken) || userToken != sessionToken)
+                return false;
+
+
+            return true;
+        
         }
 
 
@@ -637,6 +655,13 @@ namespace FitNightSnackMgr.Controllers
 
 
         }
+
+
+
+
+
+
+
 
     }
 }
