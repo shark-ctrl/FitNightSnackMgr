@@ -10,10 +10,15 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>UpdatePwd</title>
+    <script src="~/client/Scripts/jquery-2.1.3.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
     <link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+
+
+    <link rel="stylesheet" href="~/sweetalert/sweetalert.css" />
+    <script src="~/sweetalert/sweetalert-dev.js"></script>
 </head>
 <body>
 
@@ -29,24 +34,24 @@
                        
                         <div class="form-group">
                             <label class="control-label">用户名</label>
-                            <input  class="form-control" />
+                            <input  class="form-control" id="user_name"/>
                         </div>
                         <div class="form-group">
                             <label  class="control-label">余额</label>
-                            <input  class="form-control" readonly/>
+                            <input  class="form-control" id="money" readonly/>
                         </div>
                         <div class="form-group">
                             <label  class="control-label">联系电话</label>
-                            <input  class="form-control" />
+                            <input  class="form-control"  id="phone"/>
                         </div>
                         <div class="form-group">
                             <label  class="control-label">地址</label>
-                            <input  class="form-control" placeholder="例如(A4-401)"/>
+                            <input  class="form-control" id="address" placeholder="例如(A4-401)"/>
                         </div>
                        
                        
                         <div class="form-group">
-                            <input type="submit" value="修改" class="btn btn-default" />
+                            <input type="button" value="修改" class="btn btn-default" id="btn_saveinfo"/>
                         </div>
                     </form>
                 </div>
@@ -59,7 +64,65 @@
     </div>
 
    
+    <script>
+    $.post("@Url.Action("GetUserInfo","Client")",
+        {},
+        function (data) {
+            //for (let index in data) {
+            //    alert(index)
+            //}
+            $("#user_name").val(data["username"]);
+            $("#money").val(data["money"]);
+            $("#phone").val(data["phone"]);
+            $("#address").val(data["address"]);
 
+
+        }
+
+
+    )
+
+
+
+
+    $("#btn_saveinfo").click(function () {
+        $.post("@Url.Action("SaveClientUserInfo","Client")",
+            {
+                username: $("#user_name").val(),
+                phone: $("#phone").val(),
+                address: $("#address").val(),
+            },
+            function (data) {
+            if (data == true) {
+                swal("基本信息更新成功", "请核对确认",
+                    "success");
+            } else {
+                swal("基本信息更新失败", "请稍后重试",
+                    "error");
+
+            }
+
+
+        }
+
+
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+    </script>
 
 
 

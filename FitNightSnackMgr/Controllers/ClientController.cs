@@ -10,6 +10,7 @@ using FitNightSnackMgr.ViewModels;
 using FitNightSnackMgr.ViewModels.ClientViewModel;
 using Microsoft.Extensions.Logging;
 using FitNightSnackMgr.ViewModels.ShoppingCartViewModel;
+using FitNightSnackMgr.ViewModels.Other;
 
 namespace FitNightSnackMgr.Controllers
 {
@@ -432,6 +433,60 @@ namespace FitNightSnackMgr.Controllers
             return 20001;
            
         
+        }
+
+
+
+        [HttpPost]
+        public JsonResult GetUserInfo()
+        {
+            int userId =Convert.ToInt32(GetSession("usr_id"));
+
+            var user = _context.User.FirstOrDefault(u => u.Id == userId);
+
+            //string username = user.UserName;
+            //decimal money = user.Money;
+            //string phone = user.Phone;
+            //string address = user.Address;
+
+            ClientUser clientUser = new ClientUser()
+            {
+               Username = user.UserName,
+                Money = user.Money,
+                 Phone= user.Phone,
+                Address= user.Address
+
+            };
+
+            return Json(clientUser);
+
+
+        }
+
+
+        public bool SaveClientUserInfo(string username,string phone,string address)
+        {
+            try
+            {
+                int userId = Convert.ToInt32(GetSession("usr_id"));
+
+                var user = _context.User.FirstOrDefault(u => u.Id == userId);
+
+                user.UserName = username;
+                user.Phone = phone;
+                user.Address = address;
+
+                _context.Update(user);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
         }
 
     }
