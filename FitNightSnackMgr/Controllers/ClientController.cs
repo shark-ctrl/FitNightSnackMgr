@@ -372,6 +372,7 @@ namespace FitNightSnackMgr.Controllers
                 Order order = new Order()
                 {
                     OrderId = DateTime.Now.ToString("yyyyMMddhhmmss") + GetSession("usr_id"),
+                    UserId=Convert.ToInt32( GetSession("usr_id")),
                     Discount = 1,
                     OrderDetail = details,
                     TotalPrice = totalPrice,

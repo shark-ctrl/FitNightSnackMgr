@@ -62,7 +62,7 @@ namespace FitNightSnackMgr.Controllers
 
             }
 
-            int total = _context.Orders.Count();
+            int total = _context.Orders.Where(o=>o.Status!=1).Count();
             int pagecount = total / 10 + 1;
             if (pagecount > 10) pagecount = 10;
 
@@ -183,15 +183,15 @@ namespace FitNightSnackMgr.Controllers
 
             foreach (string item in ss)
             {
-                string aa = item.Replace("*", "                          ");
-                res += aa + "\n";
+               
+                res += item + "\n";
             }
             res += $"**********************************\n";
-            res += $"name                   {username}\n";
-            res += $"phone:               {phone}\n";
-            res += $"address               {address}\n";
-            res += $"address               {createtime}\n";
-            res += $"total                 {total}\n";
+            res += $"name     {username}\n";
+            res += $"phone:  {phone}\n";
+            res += $"address  {address}\n";
+            res += $"time    {createtime}\n";
+            res += $"total  {total}\n";
 
             return res;
 
@@ -199,7 +199,7 @@ namespace FitNightSnackMgr.Controllers
 
         }
 
-        [HttpGet]
+
         public FileStreamResult PdfPrint(string id)
         {
 

@@ -57,27 +57,22 @@
                                                     @if (item.Status == 0)
                                                     {
                                                         <td>未完成</td>
-}
+                                                    }
                                                     else
                                                     {
                                                         <td>已经完成</td>
-}
+                                                    }
 
                                                     <td>@item.TotalPrice</td>
 
                                                     <td>
                                                         <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-info">详情</a> |
-                                                        <a  order_id="@item.OrderId" class="btn btn-success btn_fin">完成订单</a>
+                                                        <a order_id="@item.OrderId" class="btn btn-success btn_fin">完成订单</a>
 
-                                                        <form action="/Orders/PdfPrint/@item.OrderId" method="get">
-                                                            
-                                                            <div>
-                                                                <input type="submit" hidden id="print" />
-                                                            </div>
-                                                            
-                                                            </form>
 
-</td>
+
+
+                                                    </td>
                                                 </tr>
                                             }
                                     </tbody>
@@ -121,11 +116,17 @@
     <!-- /.row -->
 </section>
 
-<button id="btnnnnnnn">dsdadasd</button>
+<form id="form_order_print"  method="get">
+
+    <div>
+        <input type="submit" hidden class="form_print" />
+    </div>
+
+</form>
 
 
 <script>
-    
+
 
     $('.btn.btn-success.btn_fin').click(function () {
 
@@ -146,9 +147,12 @@
                     },
                         function (isConfirm) {
                             if (isConfirm) {
+                                $("#form_order_print").attr("action", `/Orders/PdfPrint/${orderid}`)
+                                $(".form_print").click();
                                 $(`#${orderid}`).remove()
-                                $("#print").click();
-                                
+
+
+
                             }
                         });
 
