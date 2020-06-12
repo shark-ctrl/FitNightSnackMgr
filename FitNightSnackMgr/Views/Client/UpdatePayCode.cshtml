@@ -1,0 +1,136 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdatePwd</title>
+    <script src="~/client/Scripts/jquery-2.1.3.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/bootstrap-select/bootstrap.min.css">
+    <link rel="stylesheet" href="~/bootstrap-select/bootstrap-select.css" id="theme-stylesheet">
+
+
+
+    <link rel="stylesheet" href="~/sweetalert/sweetalert.css" />
+    <script src="~/sweetalert/sweetalert-dev.js"></script>
+</head>
+<body>
+
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <h4>支付密码修改</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                   
+
+                        <div class="form-group">
+                            <label class="control-label">OldPayCode</label>
+                            <input id="old_pwd" class="form-control" type="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">NewPayCode</label>
+                            <input id="new_pwd" class="form-control" type="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">ConfirmPayCode</label>
+                            <input id="conf_pwd" class="form-control" type="password"/>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="button" value="修改" class="btn btn-default" id="btn_change_pwd"/>
+                        </div>
+                  
+                </div>
+            </div>
+
+            <div>
+                <a asp-controller="Client" asp-action="Index" class="btn btn-success">回到列表</a>
+            </div>
+        </main>
+    </div>
+
+    
+
+<script>
+    $("#btn_change_pwd").click(function () {
+        var old_pwd = $("#old_pwd").val();
+        var new_pwd = $("#new_pwd").val();
+        var conf_pwd = $("#conf_pwd").val();
+
+
+        if (new_pwd != conf_pwd) {
+            swal("更新的支付密码不一致", "请重新输入",
+                "error");
+            return false;
+        }
+
+
+        $.post("@Url.Action("UpdatePaycode","Client")",
+            {
+                old_pwd: old_pwd,
+                new_pwd: new_pwd,
+                conf_pwd: conf_pwd
+            },
+            function (data) {
+                if (data == 20000) {
+
+                    $("#old_pwd").val("")
+                    $("#new_pwd").val("")
+                    $("#conf_pwd").val("")
+
+                    swal({
+                        title: "支付密码更新成功",
+                        text: "请妥善保管密码",
+                        type: "success",
+                        confirmButtonColor: "rgb(134,204,235)",
+                        confirmButtonText: "确定",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+
+                                window.location = "https://localhost:44320/Client/Login"
+                            }
+                        });
+
+
+
+
+
+
+                } else if (data == 4004) {
+
+                    swal("该账户状态异常", "请检查原密码是否输入正确",
+                        "error");
+                } else {
+                    swal("该账户状态异常", "请联系管理员进行操作",
+                        "error");
+                }
+
+
+            }
+
+
+        )
+
+
+    });
+
+
+</script>
+
+
+
+</body>
+</html>

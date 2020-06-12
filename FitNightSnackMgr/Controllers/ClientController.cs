@@ -196,6 +196,7 @@ namespace FitNightSnackMgr.Controllers
             user.Password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);
             user.CreateTime = DateTime.Now;
             user.UserName = $"用户{PassWordHelper.GenerateCheckCode(4)}";
+            user.Status = 1;
             _context.Add(user);
             _context.SaveChanges();
 
@@ -610,7 +611,7 @@ namespace FitNightSnackMgr.Controllers
             int userId = Convert.ToInt32(GetSession("usr_id"));
             PaginatedList<Order> pageOrder = null;
         
-             pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.UserId== userId), pageNumber ?? 1, 10); 
+             pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.UserId== userId&&o.Status!=2), pageNumber ?? 1, 8); 
            
 
 
@@ -632,8 +633,8 @@ namespace FitNightSnackMgr.Controllers
 
             }
 
-            int total = _context.Orders.Where(o => o.Status != 1).Count();
-            int pagecount = total / 10 + 1;
+            int total = _context.Orders.Where(o => o.UserId == userId && o.Status != 2).Count();
+            int pagecount = total / 8+ 1;
             if (pagecount > 10) pagecount = 10;
 
 
@@ -655,6 +656,42 @@ namespace FitNightSnackMgr.Controllers
 
 
         }
+
+
+        [HttpPost]
+        public int HiddenUserOrder(string data_order_id)
+        {
+            int userId = Convert.ToInt32(GetSession("usr_id"));
+
+            var user = _context.User.FirstOrDefault(u => u.Id == userId);
+
+
+            if (user == null ||user.Status==0)
+            {
+                return 440;//用户状态异常
+            }
+
+
+
+            if (!IsSafe(user.Id, user.UserName, user.UserAccount))
+                return 110;//登录状态异常
+
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == data_order_id);
+
+            if (order != null)
+            {
+
+                order.Status = 2;
+                _context.Update(order);
+                _context.SaveChanges();
+                return 888;//操作成功
+            
+            }
+
+            return 4004;//该订单状态异常
+        }
+
+
 
 
 

@@ -70,15 +70,16 @@
     $(".btn.btn-danger").click(function () {
         let snackNum = parseInt($(this).attr("data-snackNum"));
         let price = parseFloat($(this).attr('data_one_price'));
-        $(`#${snackNum}`).remove();
+        
         $.post("@Url.Action("RemoveCartSnack", "Client")",
             { snackNum: snackNum },
             function (res) {
                 if (res == true) {
-                    $(`#tr ${snackNum}`).remove();
+                    //$(`#tr ${snackNum}`).remove();
 
                     totalPrice -= price
                     $("#total_price").text(`${totalPrice}`)
+                    $(`#${snackNum}`).remove();
 
                 }
             }

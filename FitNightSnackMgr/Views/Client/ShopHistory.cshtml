@@ -20,23 +20,48 @@
 
             @foreach (var item in Model.OrderDetailModels)
             {
-                <tr>
+                <tr id="@item.OrderId">
                     <td>
-                      @item.OrderId
+                        @item.OrderId
                     </td>
                     <td>@item.OrderDetail</td>
                     <td> $@item.TotalPrice </td>
-                     @if (item.Status == 0)
-                     {<td>未完成</td>}
-                     else {<td>已完成</td> }
+                    @if (item.Status == 0)
+                    {
+                        <td>未完成</td>
+}
+                    else
+                    {
+                        <td>已完成</td>
+}
                     <td>
-                        <button type="button" class="btn btn-danger">移除</button>
+                        <button type="button" class="btn btn-danger" data_order_id="@item.OrderId">移除</button>
                     </td>
                 </tr>
             }
             <!-- /ko -->
         </tbody>
     </table>
+    <nav aria-label="Page navigation " style="text-align:center">
+        <ul class="pagination pagination-lg">
+            <li>
+                <a asp-action="ShopHistory" asp-route-pageNumber="@(Model.PageIndex-1)" aria-label="上一页">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= Model.PageTotal; i++)
+            {
+                <li><a asp-action="ShopHistory" asp-route-pageNumber="@i">@i</a></li>
+            }
+
+
+            <li>
+                <a asp-action="ShopHistory" asp-route-pageNumber="@(Model.PageIndex+1)" aria-label="下一页">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 
@@ -44,3 +69,33 @@
 
 
 
+<script>
+
+
+    $(".btn.btn-danger").click(function () {
+        let data_order_id = $(this).attr('data_order_id');
+        
+        $.post("@Url.Action("HiddenUserOrder", "Client")",
+            { data_order_id: data_order_id },
+            function (res) {
+                if (res == 888) {
+                    //$(`#tr ${snackNum}`).remove();
+                    $(`#${data_order_id}`).remove();
+
+
+                } else if (res==440) {
+                    swal("用户状态异常", "请联系管理员",
+                        "error");
+                } else if (res == 110) {
+                    swal("登录状态异常", "请重新登录",
+                        "error");
+                } else if (res == 4004) {
+                    swal("订单状态异常", "请联系管理员",
+                        "error");
+                }
+            }
+
+        )
+    });
+
+</script>
