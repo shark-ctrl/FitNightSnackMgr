@@ -20,7 +20,7 @@
                 <img src="@item.ImgUrl" alt="Knockout.js: Building Dynamic Client-Side Web Applications" title="@item.Name">
                 <span class="label label-success">Save 10 %</span>
             </a>
-            <h4><a   asp-controller="Client" asp-action="Details" asp-route-id="@item.SnackNum">@item.Name</a></h4>
+            <h4><a   asp-controller="Client" asp-action="Details" asp-route-id="@item.SnackNum" class="snackLink">@item.Name</a></h4>
             <p>@item.DetailInfo</p>
             <p>现价: $@item.Price</p>
             <p>原价: <span style="text-decoration: line-through">$@Convert.ToInt32(item.Price*1.1m)</span></p>
@@ -82,3 +82,16 @@
         </li>
     </ul>
 </nav>
+
+<script>
+
+    var dt = new Date();
+    var hours = dt.getHours()
+    if (hours < 20 || hours >= 0) {
+        $(".snackLink,img").addClass("not-allowed")
+        $(".snackLink,img").attr("title", "对不起，营业时间为20：00-23：59")
+        $(".snackLink,img").click(function () {
+            return false;
+        })
+    }
+</script>
