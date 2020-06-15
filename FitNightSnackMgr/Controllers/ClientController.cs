@@ -376,7 +376,7 @@ namespace FitNightSnackMgr.Controllers
             var user = _context.User.FirstOrDefault(u => u.Id == userId);
             string token = GetSession("usr_token");
             string usr_token = PassWordHelper.Md532Salt(user.Id + user.UserName, user.UserAccount);
-            if (string.IsNullOrEmpty(token) || usr_token != token)
+            if (string.IsNullOrEmpty(token) || usr_token != token|| user.Status == 0)
             {
                 return 88882;//用户状态异常
             }
@@ -461,7 +461,7 @@ namespace FitNightSnackMgr.Controllers
 
             var user = _context.User.FirstOrDefault(u => u.UserAccount == user_account && u.Password == md5_salt_pwd);
 
-            if (user != null)
+            if (user != null&&user.Status!=0)
             {
                 user.Password = PassWordHelper.Md532Salt(new_pwd, user_account);
                 _context.Update(user);
@@ -485,7 +485,7 @@ namespace FitNightSnackMgr.Controllers
             int userId = Convert.ToInt32(GetSession("usr_id"));
             var user = _context.User.FirstOrDefault(u => u.Id == userId&&u.PaySecret==old_pwd);
 
-            if (user == null)
+            if (user == null&&user.Status==0)
                 return 4004;//账号状态异常
 
             if (!IsSafe(user.Id, user.UserName, user.UserAccount))
