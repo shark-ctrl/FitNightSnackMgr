@@ -280,9 +280,11 @@ namespace FitNightSnackMgr.Controllers
                 {
 
                     StatusCode = 110,
-                    Message = $"{e.Message}"
+                    Message = "业务超时请稍后重试"
+               
 
                 };
+                _logger.LogError(e.Message);
                 return Json(result);
             }
 
@@ -291,6 +293,8 @@ namespace FitNightSnackMgr.Controllers
             if (cartShop != null)
             {
                 cartShop.SnackCount += snackCount;
+                cartShop.TotalMoney = onePrice * cartShop.SnackCount;
+              //  cartShop.CreateDate = DateTime.Now;
                 _context.Update(cartShop);
 
 
@@ -303,7 +307,9 @@ namespace FitNightSnackMgr.Controllers
                     UserId = Convert.ToInt32(GetSession("usr_id")),
                     SnackId = snackNum,
                     SnackCount = snackCount,
-                    TotalMoney = onePrice * snackCount
+                    TotalMoney = onePrice * snackCount,
+                    //CreateDate=DateTime.Now
+                    
 
 
                 };
@@ -611,7 +617,7 @@ namespace FitNightSnackMgr.Controllers
             int userId = Convert.ToInt32(GetSession("usr_id"));
             PaginatedList<Order> pageOrder = null;
         
-             pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.UserId== userId&&o.Status!=2), pageNumber ?? 1, 8); 
+             pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.UserId== userId&&o.Status!=2).OrderByDescending(o=>o.CreateTime), pageNumber ?? 1, 8); 
            
 
 

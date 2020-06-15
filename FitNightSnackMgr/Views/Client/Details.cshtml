@@ -51,7 +51,7 @@
 
     var dt = new Date();
     var hours = dt.getHours()
-    if (hours < 20 || hours >= 0) {
+    if (hours < 20 && hours >= 0) {
         $(".snackLink,img").addClass("not-allowed")
         $(".snackLink,img").attr("title", "对不起，营业时间为20：00-23：59")
         $(".snackLink,img").click(function () {

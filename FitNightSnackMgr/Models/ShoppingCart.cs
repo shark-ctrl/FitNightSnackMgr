@@ -24,5 +24,7 @@ namespace FitNightSnackMgr.Models
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "小计")]
         public decimal TotalMoney { get; set; }
+
+        //public DateTime CreateDate { get; set; }
     }
 }
