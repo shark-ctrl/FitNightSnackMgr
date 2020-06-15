@@ -172,7 +172,7 @@ namespace FitNightSnackMgr.Controllers
 
             var usr = _context.User.FirstOrDefault(u => u.UserAccount == user.UserAccount && u.Password == password);
             string token = PassWordHelper.Md532Salt(usr.Id + usr.UserName, usr.UserAccount);
-            if (usr != null)
+            if (usr != null&&usr.Status!=0)
             {
                 SaveSession("usr_name", usr.UserName);
                 SaveSession("usr_id", usr.Id.ToString());
