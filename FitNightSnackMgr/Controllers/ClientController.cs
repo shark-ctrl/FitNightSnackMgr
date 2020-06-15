@@ -560,6 +560,8 @@ namespace FitNightSnackMgr.Controllers
                 user.Phone = phone;
                 user.Address = address;
                 SaveSession("usr_name", username);
+                string token = PassWordHelper.Md532Salt(user.Id + username, user.UserAccount);
+                SaveSession("usr_token", token);
 
                 _context.Update(user);
                 _context.SaveChanges();
