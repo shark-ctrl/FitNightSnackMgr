@@ -559,6 +559,7 @@ namespace FitNightSnackMgr.Controllers
                 user.UserName = username;
                 user.Phone = phone;
                 user.Address = address;
+                SaveSession("usr_name", username);
 
                 _context.Update(user);
                 _context.SaveChanges();
