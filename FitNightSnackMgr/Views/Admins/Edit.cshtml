@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="@Model.WorkMan.Id" />
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.LoginAccount" class="control-label"></label>
-                <input asp-for="@Model.WorkMan.LoginAccount" class="form-control" />
+                <input asp-for="@Model.WorkMan.LoginAccount" class="form-control" readonly/>
                 <span asp-validation-for="@Model.WorkMan.LoginAccount" class="text-danger"></span>
             </div>
            
@@ -33,8 +33,8 @@
             <div class="form-group">
                 <label asp-for="@Model.WorkMan.Permissions" class="control-label"></label>
                 <select asp-for="@Model.WorkMan.Permissions"  class="selectpicker form-control" data-container="body" data-live-search="true" data-hide-disabled="true" >
-                    <option value="0">管理员</option>
-                    <option value="1">普通员工</option>
+                    <option value="1">配单员</option>
+                    <option value="2">配送员</option>
 
                 </select>
             </div>
