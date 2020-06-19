@@ -95,7 +95,7 @@ namespace FitNightSnackMgr.Controllers
         {
             if (value == null || value == "") return;
 
-            string session_value = HttpContext.Session.GetString(key);
+            //string session_value = HttpContext.Session.GetString(key);
 
             HttpContext.Session.SetString(key, value);
 
@@ -190,8 +190,13 @@ namespace FitNightSnackMgr.Controllers
 
         public bool IsSafe()
         {
+            string admin_id = GetSession("admin_id");
+            string username = GetSession("username");
+            string permission = GetSession("permission");
+            string account = GetSession("account");
+            string token = GetSession("token");
 
-            if ((GetSession("admin_id") == null || GetSession("username") == null || GetSession("permission") == null || GetSession("account") == null || GetSession("token") == null || PassWordHelper.Md532Salt(GetSession("admin_id") + GetSession("username") + GetSession("permission"), GetSession("account")) != GetSession("token")))
+            if ((admin_id == null || username == null || permission == null || account == null || token == null || PassWordHelper.Md532Salt(GetSession("admin_id") + GetSession("username") + GetSession("permission"), GetSession("account")) != GetSession("token")))
                 return false;
             return true;
         }
@@ -400,6 +405,17 @@ namespace FitNightSnackMgr.Controllers
 
                 SaveSession("username", admin.AdminName);
                 SaveSession("admin_id", admin.Id.ToString());
+                SaveSession("permission", admin.Permissions.ToString());
+                SaveSession("account", admin.LoginAccount);
+                SaveSession("token", PassWordHelper.Md532Salt(GetSession("admin_id") + GetSession("username") + GetSession("permission"), GetSession("account")));
+                //string admin_id = GetSession("admin_id");
+                //string username = GetSession("username");
+                //string permission = GetSession("permission");
+                //string account = GetSession("account");
+                //string token = GetSession("token");
+
+
+
 
                 adminLoginViewModel = new AdminLoginViewModel()
                 {

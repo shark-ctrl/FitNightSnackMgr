@@ -105,17 +105,17 @@
         },
             function (isConfirm) {
                 if (isConfirm) {
-                     $.post("@Url.Action("ResetPwd","Admins")",
-            { id: +admin_id },
-            function (data) {
-                if (data.status = 520) {
-                    swal("重置成功！", `${data.message}`, "success")
-                } else {
-                    swal("重置失败！", "管理员状态不合法", "error")
-                }
+                    $.post("@Url.Action("ResetPwd","Admins")",
+                        { id: +admin_id },
+                        function (data) {
+                            if (data.status = 520) {
+                                swal("重置成功！", `${data.message}`, "success")
+                            } else {
+                                swal("重置失败！", "管理员状态不合法", "error")
+                            }
 
-        })
-                }
+                        })
+                } 
             });
 
 
