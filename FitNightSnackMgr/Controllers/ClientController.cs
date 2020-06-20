@@ -164,7 +164,7 @@ namespace FitNightSnackMgr.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            _logger.LogInformation("------\r\nindex：hello world\r\n------");
+            _logger.LogInformation($"------ {user.UserName} login\r\n------");
 
             string account = user.UserAccount;
             string password = PassWordHelper.Md532Salt(user.Password, user.UserAccount);

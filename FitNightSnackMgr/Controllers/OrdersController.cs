@@ -38,7 +38,7 @@ namespace FitNightSnackMgr.Controllers
             if (SearchString == null)
             { pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o=>o.Status==0), pageNumber ?? 1, 10); }
             else
-            { pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o => o.OrderId==SearchString&&o.Status==0), pageNumber ?? 1, 10); }
+            { pageOrder = await PaginatedList<Order>.CreateAsync(_context.Orders.Where(o => o.OrderId.Contains(SearchString)&&o.Status==0), pageNumber ?? 1, 10); }
 
 
             List<OrderDetailModel> orderDetails = new List<OrderDetailModel>();
